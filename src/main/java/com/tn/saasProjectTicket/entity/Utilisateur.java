@@ -1,4 +1,6 @@
-package com.example.sassProjectTiket.entity;
+package com.tn.saasProjectTicket.entity;
+
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,13 @@ public class Utilisateur {
 	@GeneratedValue
 	private Integer id;
 	private String username;
-	private String pasword;
+	private String password;
+	private String email;
+	private String firstName;
+	private String lastName;
+	private Date birthDate;
+	private Date creationDate;
+	private Date updateDate;
+	private String role;
 
 }
