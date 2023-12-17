@@ -3,6 +3,8 @@ package com.tn.saasProjectTicket.entity;
 import javax.persistence.Entity;
 
 @Entity
-public class Admin extends Utilisateur{
+public class Etat {
+	
+	private Integer idEtat;
 
 }
