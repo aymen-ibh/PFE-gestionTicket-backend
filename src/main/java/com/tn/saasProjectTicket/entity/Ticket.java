@@ -1,10 +1,15 @@
 package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Ticket {
@@ -16,5 +21,102 @@ public class Ticket {
 	private String descriptionTicket;
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Ressource ressource;
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Projet projet;
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Historique> historiques;
+	
+	public Ticket() {
+		super();
+	}
+
+	public Ticket(Integer idTicket, String nomTicket, String descriptionTicket, Date ticketCreationDate,
+			Date ticketUpdateDate, Ressource ressource, Projet projet, Set<Historique> historiques) {
+		super();
+		this.idTicket = idTicket;
+		this.nomTicket = nomTicket;
+		this.descriptionTicket = descriptionTicket;
+		this.ticketCreationDate = ticketCreationDate;
+		this.ticketUpdateDate = ticketUpdateDate;
+		this.ressource = ressource;
+		this.projet = projet;
+		this.historiques = historiques;
+	}
+
+	public Integer getIdTicket() {
+		return idTicket;
+	}
+
+	public void setIdTicket(Integer idTicket) {
+		this.idTicket = idTicket;
+	}
+
+	public String getNomTicket() {
+		return nomTicket;
+	}
+
+	public void setNomTicket(String nomTicket) {
+		this.nomTicket = nomTicket;
+	}
+
+	public String getDescriptionTicket() {
+		return descriptionTicket;
+	}
+
+	public void setDescriptionTicket(String descriptionTicket) {
+		this.descriptionTicket = descriptionTicket;
+	}
+
+	public Date getTicketCreationDate() {
+		return ticketCreationDate;
+	}
+
+	public void setTicketCreationDate(Date ticketCreationDate) {
+		this.ticketCreationDate = ticketCreationDate;
+	}
+
+	public Date getTicketUpdateDate() {
+		return ticketUpdateDate;
+	}
+
+	public void setTicketUpdateDate(Date ticketUpdateDate) {
+		this.ticketUpdateDate = ticketUpdateDate;
+	}
+
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
+
+	public Projet getProjet() {
+		return projet;
+	}
+
+	public void setProjet(Projet projet) {
+		this.projet = projet;
+	}
+
+	public Set<Historique> getHistoriques() {
+		return historiques;
+	}
+
+	public void setHistoriques(Set<Historique> historiques) {
+		this.historiques = historiques;
+	}
+
+	@Override
+	public String toString() {
+		return "Ticket [idTicket=" + idTicket + ", nomTicket=" + nomTicket + ", descriptionTicket=" + descriptionTicket
+				+ ", ticketCreationDate=" + ticketCreationDate + ", ticketUpdateDate=" + ticketUpdateDate
+				+ ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques + "]";
+	}
+	
+	
 
 }

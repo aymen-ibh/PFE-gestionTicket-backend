@@ -1,10 +1,15 @@
 package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Societe {
@@ -18,20 +23,26 @@ public class Societe {
 	private Date societeCreationDate;
 	private Date societeUpdateDate;
 	
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Superviseur superviseur;
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Client> clients;
 	
 	public Societe() {
 		super();
 	}
 
-	public Societe(Integer idSociete, String nomSociete, String adresse, String secteurActivite, Date creationDate,
-			Date updateDate) {
+	public Societe(Integer idSociete, String nomSociete, String adresse, String secteurActivite,
+			Date societeCreationDate, Date societeUpdateDate, Superviseur superviseur, Set<Client> clients) {
 		super();
 		this.idSociete = idSociete;
 		this.nomSociete = nomSociete;
 		this.adresse = adresse;
 		this.secteurActivite = secteurActivite;
-		this.societeCreationDate = creationDate;
-		this.societeUpdateDate = updateDate;
+		this.societeCreationDate = societeCreationDate;
+		this.societeUpdateDate = societeUpdateDate;
+		this.superviseur = superviseur;
+		this.clients = clients;
 	}
 
 	public Integer getIdSociete() {
@@ -66,22 +77,45 @@ public class Societe {
 		this.secteurActivite = secteurActivite;
 	}
 
-	public Date getCreationDate() {
+	public Date getSocieteCreationDate() {
 		return societeCreationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
-		this.societeCreationDate = creationDate;
+	public void setSocieteCreationDate(Date societeCreationDate) {
+		this.societeCreationDate = societeCreationDate;
 	}
 
-	public Date getUpdateDate() {
+	public Date getSocieteUpdateDate() {
 		return societeUpdateDate;
 	}
 
-	public void setUpdateDate(Date updateDate) {
-		this.societeUpdateDate = updateDate;
+	public void setSocieteUpdateDate(Date societeUpdateDate) {
+		this.societeUpdateDate = societeUpdateDate;
 	}
-	
+
+	public Superviseur getSuperviseur() {
+		return superviseur;
+	}
+
+	public void setSuperviseur(Superviseur superviseur) {
+		this.superviseur = superviseur;
+	}
+
+	public Set<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(Set<Client> clients) {
+		this.clients = clients;
+	}
+
+	@Override
+	public String toString() {
+		return "Societe [idSociete=" + idSociete + ", nomSociete=" + nomSociete + ", adresse=" + adresse
+				+ ", secteurActivite=" + secteurActivite + ", societeCreationDate=" + societeCreationDate
+				+ ", societeUpdateDate=" + societeUpdateDate + ", superviseur=" + superviseur + ", clients=" + clients
+				+ "]";
+	}
 	
 	
 	
