@@ -1,5 +1,6 @@
 package com.tn.saasProjectTicket.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,14 @@ public class Ressource extends Employe {
 	public Ressource() {
 		super();
 	}
+	
+
+	public Ressource(Integer userId, String username, String password, String email, String firstName, String lastName,
+			Date birthDate, Date creationDate, Date updateDate, String role) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role);
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public Ressource(Set<Ticket> tickets) {
 		super();

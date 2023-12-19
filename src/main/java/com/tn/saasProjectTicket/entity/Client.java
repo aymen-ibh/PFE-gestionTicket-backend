@@ -1,5 +1,6 @@
 package com.tn.saasProjectTicket.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,17 +17,6 @@ public class Client extends Utilisateur {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Societe societe;
 	
-	
-	public Client() {
-		super();
-	}
-
-
-	public Client(Set<Projet> projets, Societe societe) {
-		super();
-		this.projets = projets;
-		this.societe = societe;
-	}
 
 
 	public Set<Projet> getProjets() {
@@ -45,6 +35,28 @@ public class Client extends Utilisateur {
 
 
 	public void setSociete(Societe societe) {
+		this.societe = societe;
+	}
+	
+	
+
+
+	public Client() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Client(Integer userId, String username, String password, String email, String firstName, String lastName,
+			Date birthDate, Date creationDate, Date updateDate, String role) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role);
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Client(Set<Projet> projets, Societe societe) {
+		super();
+		this.projets = projets;
 		this.societe = societe;
 	}
 

@@ -14,7 +14,7 @@ public class Utilisateur {
 	
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private Integer userId;
 	private String username;
 	private String password;
 	private String email;
@@ -32,10 +32,10 @@ public class Utilisateur {
 	}
 
 
-	public Utilisateur(Integer id, String username, String password, String email, String firstName, String lastName,
+	public Utilisateur(Integer userId, String username, String password, String email, String firstName, String lastName,
 			Date birthDate, Date creationDate, Date updateDate, String role) {
 		super();
-		this.id = id;
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -48,13 +48,13 @@ public class Utilisateur {
 	}
 
 
-	public Integer getId() {
-		return id;
+	public Integer getUserId() {
+		return userId;
 	}
 
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 
@@ -150,7 +150,7 @@ public class Utilisateur {
 
 	@Override
 	public String toString() {
-		return "Utilisateur [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email
+		return "Utilisateur [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
 				+ ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", creationDate="
 				+ creationDate + ", updateDate=" + updateDate + ", role=" + role + "]";
 	}
