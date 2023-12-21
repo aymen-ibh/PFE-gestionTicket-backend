@@ -22,6 +22,7 @@ public class Manager extends Employe {
 		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public Manager(Set<Projet> projets) {
 		super();

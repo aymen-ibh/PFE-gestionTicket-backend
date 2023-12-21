@@ -1,11 +1,16 @@
 package com.tn.saasProjectTicket.service;
 
-import java.util.Date;
 
+import javax.naming.AuthenticationException;
+
+import org.springframework.http.ResponseEntity;
+
+import com.tn.saasProjectTicket.entity.AuthResponse;
 import com.tn.saasProjectTicket.entity.Utilisateur;
 
 public interface UserService {
 
-	Utilisateur registerUser(String firstName,String lastName,String username,
-			                 String password,String email,Date birthDate);
+	Utilisateur registerUser(Utilisateur utilisateur);
+	ResponseEntity<AuthResponse> authenticateUser(String username, String password) throws
+	            AuthenticationException;
 }
