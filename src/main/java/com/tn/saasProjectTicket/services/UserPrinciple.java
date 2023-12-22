@@ -11,21 +11,28 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tn.saasProjectTicket.entity.Utilisateur;
 
 
 
 public class UserPrinciple implements UserDetails {
 	private static final long serialVersionUID = 1L;
-
+	@JsonProperty("username")
     private String username;
 
-    @JsonIgnore
+    @JsonProperty("password")
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
  
+    
+	public UserPrinciple() {
+		super();
+	}
+
+
 
 	public UserPrinciple(String username,
 			String password, Collection<? extends GrantedAuthority> authorities) {

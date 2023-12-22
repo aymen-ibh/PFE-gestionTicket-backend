@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,6 +39,7 @@ import com.tn.saasProjectTicket.repository.SuperviseurRepository;
 import com.tn.saasProjectTicket.repository.UserRepository;
 import com.tn.saasProjectTicket.service.UserService;
 import com.tn.saasProjectTicket.services.UserDetailsServiceImpl;
+import com.tn.saasProjectTicket.services.UserPrinciple;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -138,15 +140,15 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public ResponseEntity<AuthResponse> authenticateUser(String username, String password) throws
-	       AuthenticationException {
-		
+	public ResponseEntity<AuthResponse> authenticateUser(UserPrinciple userPrinciple) {
+		try {
+			
 		Authentication authentication = authenticationManager.authenticate(
-		    new UsernamePasswordAuthenticationToken(username, password)
+		    new UsernamePasswordAuthenticationToken(userPrinciple.getUsername(), userPrinciple.getPassword())
 		);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		UserDetails userDetails = userDetailsService.loadUserByUsername(userPrinciple.getUsername());
 		TokenObject tokenObject = new TokenObject();
 		tokenObject.setUsername(userDetails.getUsername());
 
@@ -158,6 +160,13 @@ public class UserServiceImpl implements UserService {
 		String token = jwtProvider.generateJwtToken(tokenObject);
 
 		return ResponseEntity.ok(new AuthResponse(HttpStatus.OK.value(), token));
+	} catch (BadCredentialsException e) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+				.body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Nom d'utilisateur ou mot de passe incorrect"));
+	} catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Erreur d'authentification"));
+     }
 	}
 	
 	

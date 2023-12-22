@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<AuthResponse> login(@RequestBody UserPrinciple userPrinciple) {
         try {
             return userService.authenticateUser(
-                userPrinciple.getUsername(), userPrinciple.getPassword());
+                userPrinciple);
         } catch (Exception e) {
             return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
