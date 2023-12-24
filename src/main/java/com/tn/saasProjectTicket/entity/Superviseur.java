@@ -5,40 +5,47 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Superviseur extends Utilisateur {
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Societe> societes;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "societe_id", referencedColumnName = "idSociete")
+	private Societe societe;
 
 	public Superviseur() {
 		super();
 	}
 
-	public Superviseur(Set<Societe> societes) {
+	public Superviseur(Societe societe) {
 		super();
-		this.societes = societes;
+		this.societe = societe;
 	}
 
 	public Superviseur(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role);
+			Date birthDate, Date creationDate, Date updateDate, String role,boolean isActif) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role,isActif);
 		// TODO Auto-generated constructor stub
 	}
+	
 
-	public Set<Societe> getSocietes() {
-		return societes;
+	public Societe getSociete() {
+		return societe;
 	}
 
-	public void setSocietes(Set<Societe> societes) {
-		this.societes = societes;
+	public void setSociete(Societe societe) {
+		this.societe = societe;
 	}
 
 	@Override
 	public String toString() {
-		return "Superviseur [societes=" + societes + "]";
+		return "Superviseur [societe=" + societe + "]";
 	}
+
+	
 	
 }

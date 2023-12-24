@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tn.saasProjectTicket.entity.AuthResponse;
+import com.tn.saasProjectTicket.entity.Superviseur;
+import com.tn.saasProjectTicket.entity.SuperviseurRegistrationDto;
 import com.tn.saasProjectTicket.entity.Utilisateur;
 import com.tn.saasProjectTicket.exception.domain.EmailAlreadyExistException;
 import com.tn.saasProjectTicket.exception.domain.UserAlreadyExistException;
 import com.tn.saasProjectTicket.jwt.JwtProvider;
+import com.tn.saasProjectTicket.service.SuperviseurService;
 import com.tn.saasProjectTicket.service.UserService;
 import com.tn.saasProjectTicket.services.UserPrinciple;
 
@@ -22,6 +25,9 @@ import com.tn.saasProjectTicket.services.UserPrinciple;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SuperviseurService superviseurService;
 
 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		
 	@PostMapping("/registerUser")
@@ -42,5 +48,13 @@ public class UserController {
                 .body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), null));
         }
     }
+	
+	@PostMapping("/registerSuperviseur")
+	public ResponseEntity<Superviseur> registerSuperviseurEtSociete(
+			@RequestBody SuperviseurRegistrationDto registrationDto)throws EmailAlreadyExistException,
+    UserAlreadyExistException{
+		Superviseur newSuperviseur = superviseurService.registerSuperviseurEtSociete(registrationDto);
+		return new ResponseEntity<>(newSuperviseur,HttpStatus.OK);
+	}
 	
 }

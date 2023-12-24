@@ -24,16 +24,16 @@ public class Utilisateur {
 	private Date creationDate;
 	private Date updateDate;
 	private String role;
+	private boolean isActif;
 	
 
 	
 	public Utilisateur() {
 		super();
-	}
+	}	
 
-
-	public Utilisateur(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role) {
+	public Utilisateur(Integer userId, String username, String password, String email, String firstName,
+			String lastName, Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -45,6 +45,17 @@ public class Utilisateur {
 		this.creationDate = creationDate;
 		this.updateDate = updateDate;
 		this.role = role;
+		this.isActif = isActif;
+	}
+
+
+	public boolean isActif() {
+		return isActif;
+	}
+
+
+	public void setIsActif(boolean actif) {
+		this.isActif = actif;
 	}
 
 

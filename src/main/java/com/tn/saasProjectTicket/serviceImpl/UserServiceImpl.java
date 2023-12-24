@@ -1,6 +1,7 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
 
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.naming.AuthenticationException;
@@ -17,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -82,10 +84,18 @@ public class UserServiceImpl implements UserService {
         }
         switch (utilisateur.getRole()) {
 		case "ADMIN":
+			System.out.println("++++++++++++++++++++++++++++++++++++++++++ "+encoder.encode(utilisateur.getPassword()));
 			Admin admin = new Admin();
 			admin.setEmail(utilisateur.getEmail());
 			admin.setUsername(utilisateur.getUsername());
 			admin.setPassword(encoder.encode(utilisateur.getPassword()));
+			admin.setRole(utilisateur.getRole());
+			admin.setBirthDate(utilisateur.getBirthDate());
+			admin.setFirstName(utilisateur.getFirstName());
+			admin.setLastName(utilisateur.getLastName());
+			admin.setCreationDate(new Date());
+			admin.setUpdateDate(new Date());
+			admin.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			adminRepository.save(admin);
@@ -95,6 +105,13 @@ public class UserServiceImpl implements UserService {
 			client.setEmail(utilisateur.getEmail());
 			client.setUsername(utilisateur.getUsername());
 			client.setPassword(encoder.encode(utilisateur.getPassword()));
+			client.setRole(utilisateur.getRole());
+			client.setBirthDate(utilisateur.getBirthDate());
+			client.setFirstName(utilisateur.getFirstName());
+			client.setLastName(utilisateur.getLastName());
+			client.setCreationDate(new Date());
+			client.setUpdateDate(new Date());
+			client.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			clientRepository.save(client);
@@ -104,6 +121,13 @@ public class UserServiceImpl implements UserService {
 			superviseur.setEmail(utilisateur.getEmail());
 			superviseur.setUsername(utilisateur.getUsername());
 			superviseur.setPassword(encoder.encode(utilisateur.getPassword()));
+			superviseur.setRole(utilisateur.getRole());
+			superviseur.setBirthDate(utilisateur.getBirthDate());
+			superviseur.setFirstName(utilisateur.getFirstName());
+			superviseur.setLastName(utilisateur.getLastName());
+			superviseur.setCreationDate(new Date());
+			superviseur.setUpdateDate(new Date());
+			superviseur.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			superviseurRepository.save(superviseur);
@@ -112,6 +136,13 @@ public class UserServiceImpl implements UserService {
 			manager.setEmail(utilisateur.getEmail());
 			manager.setUsername(utilisateur.getUsername());
 			manager.setPassword(encoder.encode(utilisateur.getPassword()));
+			manager.setRole(utilisateur.getRole());
+			manager.setBirthDate(utilisateur.getBirthDate());
+			manager.setFirstName(utilisateur.getFirstName());
+			manager.setLastName(utilisateur.getLastName());
+			manager.setCreationDate(new Date());
+			manager.setUpdateDate(new Date());
+			manager.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			managerRepository.save(manager);
@@ -120,6 +151,13 @@ public class UserServiceImpl implements UserService {
 			ressource.setEmail(utilisateur.getEmail());
 			ressource.setUsername(utilisateur.getUsername());
 			ressource.setPassword(encoder.encode(utilisateur.getPassword()));
+			ressource.setRole(utilisateur.getRole());
+			ressource.setBirthDate(utilisateur.getBirthDate());
+			ressource.setFirstName(utilisateur.getFirstName());
+			ressource.setLastName(utilisateur.getLastName());
+			ressource.setCreationDate(new Date());
+			ressource.setUpdateDate(new Date());
+			ressource.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			ressourceRepository.save(ressource);
@@ -149,6 +187,11 @@ public class UserServiceImpl implements UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		UserDetails userDetails = userDetailsService.loadUserByUsername(userPrinciple.getUsername());
+		Utilisateur utilisateur = userRepository.findByUsername(userPrinciple.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+		if(!utilisateur.isActif()) {
+			return ResponseEntity.ok(new AuthResponse(HttpStatus.FORBIDDEN.value(), "Utilisateur non connecté"));
+		}
 		TokenObject tokenObject = new TokenObject();
 		tokenObject.setUsername(userDetails.getUsername());
 
@@ -165,7 +208,7 @@ public class UserServiceImpl implements UserService {
 				.body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Nom d'utilisateur ou mot de passe incorrect"));
 	} catch (Exception e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Erreur d'authentification"));
+                .body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Erreur d'authentification "+e.getMessage()));
      }
 	}
 	

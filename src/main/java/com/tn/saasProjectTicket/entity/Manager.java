@@ -17,12 +17,13 @@ public class Manager extends Employe {
 		super();
 	}
 	
+
 	public Manager(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role);
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 
 	public Manager(Set<Projet> projets) {
 		super();

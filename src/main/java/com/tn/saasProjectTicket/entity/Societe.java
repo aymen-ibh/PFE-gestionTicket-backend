@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Societe {
@@ -23,7 +24,7 @@ public class Societe {
 	private Date societeCreationDate;
 	private Date societeUpdateDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "societe",fetch = FetchType.LAZY)
 	private Superviseur superviseur;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Client> clients;
