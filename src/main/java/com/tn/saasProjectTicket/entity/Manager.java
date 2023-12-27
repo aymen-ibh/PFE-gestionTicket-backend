@@ -7,10 +7,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Manager extends Employe {
 	
 	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Set<Projet> projets;
 
 	public Manager() {

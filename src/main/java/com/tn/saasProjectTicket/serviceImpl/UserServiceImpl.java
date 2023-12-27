@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			clientRepository.save(client);
 			break;
-		case "SUPERVISEUR":
+		/*case "SUPERVISEUR":
 			Superviseur superviseur = new Superviseur();
 			superviseur.setEmail(utilisateur.getEmail());
 			superviseur.setUsername(utilisateur.getUsername());
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 			superviseur.setIsActif(true);
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
-			superviseurRepository.save(superviseur);
+			superviseurRepository.save(superviseur); */
 		case "MANAGER":
 			Manager manager = new Manager();
 			manager.setEmail(utilisateur.getEmail());

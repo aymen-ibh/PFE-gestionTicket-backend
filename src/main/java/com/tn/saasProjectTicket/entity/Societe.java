@@ -8,11 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Societe {
 	
 	@Id
@@ -25,6 +28,7 @@ public class Societe {
 	private Date societeUpdateDate;
 	
 	@OneToOne(mappedBy = "societe",fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Superviseur superviseur;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Client> clients;

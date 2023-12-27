@@ -21,6 +21,34 @@ public class SuperviseurRegistrationDto {
 	private String secteurActivite;
 	private Date societeCreationDate;
 	private Date societeUpdateDate;
+	
+	
+	public SuperviseurRegistrationDto() {
+		super();
+	}
+	
+	public SuperviseurRegistrationDto(String username, String password, String email, String firstName, String lastName,
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String nomSociete,
+			String adresse, String secteurActivite, Date societeCreationDate, Date societeUpdateDate) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.creationDate = creationDate;
+		this.updateDate = updateDate;
+		this.role = role;
+		this.isActif = isActif;
+		this.nomSociete = nomSociete;
+		this.adresse = adresse;
+		this.secteurActivite = secteurActivite;
+		this.societeCreationDate = societeCreationDate;
+		this.societeUpdateDate = societeUpdateDate;
+	}
+
+
 	public String getUsername() {
 		return username;
 	}

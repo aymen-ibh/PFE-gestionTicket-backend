@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tn.saasProjectTicket.entity.Societe;
 import com.tn.saasProjectTicket.entity.Superviseur;
@@ -34,6 +35,7 @@ public class SuperviseurServiceImpl implements SuperviseurService {
 	private MailTicketServiceImpl mailTicketServiceImpl;
 
 	@Override
+	@Transactional
 	public Superviseur registerSuperviseurEtSociete(SuperviseurRegistrationDto registrationDto) {
 		if (userRepository.findByUsername(registrationDto.getUsername()).isPresent()) {
             throw new UserAlreadyExistException("Nom d'utilisateur déjà pris");

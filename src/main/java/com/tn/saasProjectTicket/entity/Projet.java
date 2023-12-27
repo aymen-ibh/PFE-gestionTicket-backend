@@ -23,6 +23,7 @@ public class Projet {
 	private Date dateFinProjet;
 	private Date projetCreationDate;
 	private Date projetUpdateDate;
+	private boolean isActif;
 	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Client client;
@@ -36,7 +37,7 @@ public class Projet {
 	}
 
 	public Projet(Integer idProjet, String nomProjet, String descriptionProjet, Date datedebutProjet,
-			Date dateFinProjet, Date projetCreationDate, Date projetUpdateDate, Client client, Manager manager,
+			Date dateFinProjet, Date projetCreationDate, Date projetUpdateDate,boolean isActif, Client client, Manager manager,
 			Set<Ticket> tickets) {
 		super();
 		this.idProjet = idProjet;
@@ -46,6 +47,7 @@ public class Projet {
 		this.dateFinProjet = dateFinProjet;
 		this.projetCreationDate = projetCreationDate;
 		this.projetUpdateDate = projetUpdateDate;
+		this.isActif = isActif;
 		this.client = client;
 		this.manager = manager;
 		this.tickets = tickets;
@@ -130,14 +132,25 @@ public class Projet {
 	public void setTickets(Set<Ticket> tickets) {
 		this.tickets = tickets;
 	}
+	
+
+	public boolean isActif() {
+		return isActif;
+	}
+
+	public void setActif(boolean isActif) {
+		this.isActif = isActif;
+	}
 
 	@Override
 	public String toString() {
 		return "Projet [idProjet=" + idProjet + ", nomProjet=" + nomProjet + ", descriptionProjet=" + descriptionProjet
 				+ ", datedebutProjet=" + datedebutProjet + ", dateFinProjet=" + dateFinProjet + ", projetCreationDate="
-				+ projetCreationDate + ", projetUpdateDate=" + projetUpdateDate + ", client=" + client + ", manager="
-				+ manager + ", tickets=" + tickets + "]";
+				+ projetCreationDate + ", projetUpdateDate=" + projetUpdateDate + ", isActif=" + isActif + ", client="
+				+ client + ", manager=" + manager + ", tickets=" + tickets + "]";
 	}
+
+	
 	
 	
 

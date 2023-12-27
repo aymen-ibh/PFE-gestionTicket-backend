@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Client extends Utilisateur {
 	
@@ -18,7 +20,7 @@ public class Client extends Utilisateur {
 	private Societe societe;
 	
 
-
+	@JsonIgnore
 	public Set<Projet> getProjets() {
 		return projets;
 	}

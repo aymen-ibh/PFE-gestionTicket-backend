@@ -8,6 +8,7 @@ import com.tn.saasProjectTicket.entity.Utilisateur;
 
 public interface UserRepository extends JpaRepository<Utilisateur, Integer> {
 
+	Optional <Utilisateur> findById(int userId);
 	Optional<Utilisateur> findByUsername(String username);
 	Optional<Utilisateur> findByEmail(String email);
 }
