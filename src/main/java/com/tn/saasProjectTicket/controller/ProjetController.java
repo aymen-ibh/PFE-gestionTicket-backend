@@ -1,5 +1,6 @@
 package com.tn.saasProjectTicket.controller;
 
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,26 @@ public class ProjetController {
 	@GetMapping("afficherProjetActif/{idUser}")
 	public Set<Projet> projetsActifPerClient(@PathVariable("idUser") int id){
 		return projetService.getProjetsActifsParClient(id);
+	}
+	
+	@GetMapping("afficherProjetDebut/{dateDebutProjet}")
+	public Set<Projet> afficherProjetsParDateDebut(@PathVariable("dateDebutProjet") Date dateDebutProjet){
+		return projetService.getProjetsParDateDebutProjet(dateDebutProjet);
+	}
+	
+	@GetMapping("afficherProjetFin/{dateFinProjet}")
+	public Set<Projet> afficherProjetsParDateFin(@PathVariable("dateFinProjet") Date dateFinProjet){
+		return projetService.getProjetsParDateFinProjet(dateFinProjet);
+	}
+	
+	@GetMapping("afficherProjetParCreation/{projetCreationDate}")
+	public Set<Projet> afficherProjetsCreationDate(@PathVariable("projetCreationDate") Date projetCreationDate){
+		return projetService.getProjetsParDateFinProjet(projetCreationDate);
+	}
+	
+	@GetMapping("afficherProjetFin/{dateFinProjet}")
+	public Projet afficherProjetsParNom(@PathVariable("nomProjet") String nomProjet){
+		return projetService.getProjetParNomProjet(nomProjet);
 	}
 	
 	@PutMapping("{idProjet}/modifier")

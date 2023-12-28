@@ -1,12 +1,8 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +95,26 @@ public class ProjetServiceImpl implements ProjetService {
 		projet.setActif(false);
 		projetRepository.save(projet) ;
 		return projet;
+	}
+
+	@Override
+	public Set<Projet> getProjetsParDateDebutProjet(Date dateDebutProjet) {
+		return projetRepository.findProjetsByDateDebutProjet(dateDebutProjet);
+	}
+
+	@Override
+	public Set<Projet> getProjetsParDateFinProjet(Date dateFinProjet) {
+		return projetRepository.findProjetsByDateFinProjet(dateFinProjet);
+	}
+
+	@Override
+	public Set<Projet> getProjetsParProjetCreationDate(Date projetCreationDate) {
+		return projetRepository.findProjetsByProjetCreationDate(projetCreationDate);
+	}
+
+	@Override
+	public Projet getProjetParNomProjet(String nomProjet) {
+		return projetRepository.findProjetByNomProjet(nomProjet);
 	}
 
 }
