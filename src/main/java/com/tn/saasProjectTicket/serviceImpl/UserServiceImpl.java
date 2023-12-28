@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService {
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			managerRepository.save(manager);
+			break;
 		case "RESSOURCE":
 			Ressource ressource = new Ressource();
 			ressource.setEmail(utilisateur.getEmail());
@@ -161,6 +162,7 @@ public class UserServiceImpl implements UserService {
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			ressourceRepository.save(ressource);
+			break;
 		default:
 			throw new IllegalArgumentException("Rôle non reconnu : " + utilisateur.getRole());
 		}

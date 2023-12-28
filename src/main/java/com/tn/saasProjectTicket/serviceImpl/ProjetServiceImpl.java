@@ -1,15 +1,19 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Client;
 import com.tn.saasProjectTicket.entity.Manager;
 import com.tn.saasProjectTicket.entity.Projet;
+import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.ClientRepository;
 import com.tn.saasProjectTicket.repository.ManagerRepository;
 import com.tn.saasProjectTicket.repository.ProjetRepository;
@@ -36,9 +40,10 @@ public class ProjetServiceImpl implements ProjetService {
 		newProjet.setDateFinProjet(projet.getDateFinProjet());
 		newProjet.setActif(false);
 		
+		
 		int idClient = projet.getClient().getUserId();
 		int idManager = projet.getManager().getUserId();
-		Client client = clientRepository.findById(idClient);
+		Client client = clientRepository.findById(idClient).get();
 		Manager manager = managerRepository.findById(idManager);
 		newProjet.setClient(client);
 		newProjet.setManager(manager);
@@ -48,32 +53,52 @@ public class ProjetServiceImpl implements ProjetService {
 
 	@Override
 	public Projet getProjetById(int idProjet) {
-		// TODO Auto-generated method stub
-		return null;
+		return projetRepository.findById(idProjet).orElseThrow(
+				()->new RessourceNotFoundException("Projet","Id",idProjet)
+				);
 	}
 
 	@Override
 	public Projet updateProjet(Projet projet, int idProjet) {
-		// TODO Auto-generated method stub
-		return null;
+		Projet projetExistant = projetRepository.findById(idProjet).get();
+		projetExistant.setNomProjet(projet.getNomProjet());
+		projetExistant.setDescriptionProjet(projet.getDescriptionProjet());
+		projetExistant.setDatedebutProjet(projet.getDatedebutProjet());
+		projetExistant.setDateFinProjet(projet.getDateFinProjet());
+		
+		int idClient = projet.getClient().getUserId();
+		int idManager = projet.getManager().getUserId();
+		Client client = clientRepository.findById(idClient).get();
+		Manager manager = managerRepository.findById(idManager);
+		projetExistant.setClient(client);
+		projetExistant.setManager(manager);
+		projetRepository.save(projetExistant);
+		return projetExistant;
 	}
 
 	@Override
-	public Set<Projet> getProjetsActifsByClient(int idClient) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Projet> getProjetsActifsParClient(int idClient) {
+		return projetRepository.findProjetsActifsParClientId(idClient, true);
 	}
 
 	@Override
-	public Boolean ActiverProjet(int idProjet) {
-		// TODO Auto-generated method stub
-		return null;
+	public Projet activerProjet(int idProjet) {
+		Projet projet = projetRepository.findById(idProjet).orElseThrow(
+				()-> new RessourceNotFoundException("Projet", "Id", idProjet)
+				);
+		projet.setActif(true);
+		projetRepository.save(projet) ;
+		return projet;
 	}
 
 	@Override
-	public Boolean DesactiverProjet(int idProjet) {
-		// TODO Auto-generated method stub
-		return null;
+	public Projet desactiverProjet(int idProjet) {
+		Projet projet = projetRepository.findById(idProjet).orElseThrow(
+				()-> new RessourceNotFoundException("Projet", "Id", idProjet)
+				);
+		projet.setActif(false);
+		projetRepository.save(projet) ;
+		return projet;
 	}
 
 }

@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Projet {
@@ -25,9 +28,9 @@ public class Projet {
 	private Date projetUpdateDate;
 	private boolean isActif;
 	
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Client client;
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	private Manager manager;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Ticket> tickets;
@@ -108,6 +111,7 @@ public class Projet {
 	public void setProjetUpdateDate(Date projetUpdateDate) {
 		this.projetUpdateDate = projetUpdateDate;
 	}
+
 
 	public Client getClient() {
 		return client;

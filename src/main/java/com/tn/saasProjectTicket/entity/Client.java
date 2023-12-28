@@ -14,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Client extends Utilisateur {
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Set<Projet> projets;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Societe societe;
 	
 
-	@JsonIgnore
 	public Set<Projet> getProjets() {
 		return projets;
 	}

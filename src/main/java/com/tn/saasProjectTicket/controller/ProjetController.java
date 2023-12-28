@@ -1,9 +1,14 @@
 package com.tn.saasProjectTicket.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +27,34 @@ public class ProjetController {
 	@PostMapping("/ajouterProjet")
     public ResponseEntity<?> ajouterProjet(
             @RequestBody Projet projet){
-		Projet newProjet = projetService.ajouterProjet(projet);
-		return new ResponseEntity<>(newProjet, HttpStatus.CREATED);
+		return new ResponseEntity<>(projetService.ajouterProjet(projet), HttpStatus.CREATED);
 	}
+	
+	@GetMapping("afficherProjet/{idProjet}")
+	public ResponseEntity<Projet> afficherProjet(@PathVariable("idProjet") int id){
+		return new ResponseEntity<Projet>(projetService.getProjetById(id),HttpStatus.OK);
+	}
+	
+	@GetMapping("afficherProjetActif/{idUser}")
+	public Set<Projet> projetsActifPerClient(@PathVariable("idUser") int id){
+		return projetService.getProjetsActifsParClient(id);
+	}
+	
+	@PutMapping("{idProjet}/modifier")
+	public ResponseEntity<Projet> modifierProjet(@RequestBody Projet projet,@PathVariable("idProjet") int id){
+		return new ResponseEntity<Projet>(projetService.updateProjet(projet, id),HttpStatus.OK);
+	}
+	
+	@PutMapping("/{projetId}/activer")
+    public ResponseEntity<Projet> activerProjet(@PathVariable int projetId) {
+        Projet projet = projetService.activerProjet(projetId);
+        return new ResponseEntity<>(projet, HttpStatus.OK);
+    }
+	
+	@PutMapping("/{projetId}/desactiver")
+	public ResponseEntity<Projet> desactiverProjet(@PathVariable int projetId) {
+        Projet projet = projetService.desactiverProjet(projetId);
+        return new ResponseEntity<>(projet, HttpStatus.OK);
+    }
 
 }

@@ -10,7 +10,7 @@ public interface ProjetService {
 	Projet ajouterProjet(Projet projet);
 	Projet getProjetById(int idProjet);
 	Projet updateProjet(Projet projet,int idProjet);
-	Set<Projet> getProjetsActifsByClient(int idClient);
-	Boolean ActiverProjet(int idProjet);
-	Boolean DesactiverProjet(int idProjet);
+	Set<Projet> getProjetsActifsParClient(int idClient);
+	Projet activerProjet(int idProjet);
+	Projet desactiverProjet(int idProjet);
 }
