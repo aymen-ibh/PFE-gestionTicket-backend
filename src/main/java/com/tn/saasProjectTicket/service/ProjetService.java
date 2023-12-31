@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import com.tn.saasProjectTicket.entity.Projet;
+import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
 
 public interface ProjetService {
 	
@@ -11,11 +12,7 @@ public interface ProjetService {
 	Projet ajouterProjet(Projet projet);
 	Projet getProjetById(int idProjet);
 	Projet updateProjet(Projet projet,int idProjet);
-	Set<Projet> getProjetsActifsParClient(int idClient);
-	Set<Projet> getProjetsParDateDebutProjet(Date dateDebutProjet);
-	Set<Projet> getProjetsParDateFinProjet(Date dateFinProjet);
-	Set<Projet> getProjetsParProjetCreationDate(Date projetCreationDate);
-	Projet getProjetParNomProjet(String nomProjet);
+	Set<Projet> findProjetsByCriteria(ProjetCriteriaDTO projetCriteriaDTO);
 	Projet activerProjet(int idProjet);
 	Projet desactiverProjet(int idProjet);
 }

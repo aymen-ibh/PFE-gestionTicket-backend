@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tn.saasProjectTicket.entity.Projet;
+import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
 import com.tn.saasProjectTicket.service.ProjetService;
 
 @RestController
@@ -35,30 +36,11 @@ public class ProjetController {
 	public ResponseEntity<Projet> afficherProjet(@PathVariable("idProjet") int id){
 		return new ResponseEntity<Projet>(projetService.getProjetById(id),HttpStatus.OK);
 	}
-	
-	@GetMapping("afficherProjetActif/{idUser}")
-	public Set<Projet> projetsActifPerClient(@PathVariable("idUser") int id){
-		return projetService.getProjetsActifsParClient(id);
-	}
-	
-	@GetMapping("afficherProjetDebut/{dateDebutProjet}")
-	public Set<Projet> afficherProjetsParDateDebut(@PathVariable("dateDebutProjet") Date dateDebutProjet){
-		return projetService.getProjetsParDateDebutProjet(dateDebutProjet);
-	}
-	
-	@GetMapping("afficherProjetFin/{dateFinProjet}")
-	public Set<Projet> afficherProjetsParDateFin(@PathVariable("dateFinProjet") Date dateFinProjet){
-		return projetService.getProjetsParDateFinProjet(dateFinProjet);
-	}
-	
-	@GetMapping("afficherProjetParCreation/{projetCreationDate}")
-	public Set<Projet> afficherProjetsCreationDate(@PathVariable("projetCreationDate") Date projetCreationDate){
-		return projetService.getProjetsParDateFinProjet(projetCreationDate);
-	}
-	
-	@GetMapping("afficherProjetFin/{dateFinProjet}")
-	public Projet afficherProjetsParNom(@PathVariable("nomProjet") String nomProjet){
-		return projetService.getProjetParNomProjet(nomProjet);
+
+    @GetMapping("/search")
+	public ResponseEntity<Set<Projet>> findProjetsByCriteria(ProjetCriteriaDTO criteria) {
+	    Set<Projet> projets = projetService.findProjetsByCriteria(criteria);
+	    return ResponseEntity.ok(projets);
 	}
 	
 	@PutMapping("{idProjet}/modifier")

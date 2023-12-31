@@ -2,6 +2,7 @@ package com.tn.saasProjectTicket.serviceImpl;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tn.saasProjectTicket.entity.Client;
 import com.tn.saasProjectTicket.entity.Manager;
 import com.tn.saasProjectTicket.entity.Projet;
+import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.ClientRepository;
 import com.tn.saasProjectTicket.repository.ManagerRepository;
@@ -73,8 +75,15 @@ public class ProjetServiceImpl implements ProjetService {
 	}
 
 	@Override
-	public Set<Projet> getProjetsActifsParClient(int idClient) {
-		return projetRepository.findProjetsActifsParClientId(idClient, true);
+	public Set<Projet> findProjetsByCriteria(ProjetCriteriaDTO projetCriteriaDTO) {
+		 return projetRepository.findProjetsByCriteria(
+                projetCriteriaDTO.getClientId(),
+                projetCriteriaDTO.getIsActif(),
+                projetCriteriaDTO.getDatedebutProjet(),
+                projetCriteriaDTO.getDateFinProjet(),
+                projetCriteriaDTO.getProjetCreationDate(),
+                projetCriteriaDTO.getNomProjet()
+        );
 	}
 
 	@Override
@@ -97,24 +106,5 @@ public class ProjetServiceImpl implements ProjetService {
 		return projet;
 	}
 
-	@Override
-	public Set<Projet> getProjetsParDateDebutProjet(Date dateDebutProjet) {
-		return projetRepository.findProjetsByDateDebutProjet(dateDebutProjet);
-	}
-
-	@Override
-	public Set<Projet> getProjetsParDateFinProjet(Date dateFinProjet) {
-		return projetRepository.findProjetsByDateFinProjet(dateFinProjet);
-	}
-
-	@Override
-	public Set<Projet> getProjetsParProjetCreationDate(Date projetCreationDate) {
-		return projetRepository.findProjetsByProjetCreationDate(projetCreationDate);
-	}
-
-	@Override
-	public Projet getProjetParNomProjet(String nomProjet) {
-		return projetRepository.findProjetByNomProjet(nomProjet);
-	}
 
 }
