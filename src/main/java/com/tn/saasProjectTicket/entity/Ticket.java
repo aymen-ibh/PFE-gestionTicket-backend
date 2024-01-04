@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.tn.saasProjectTicket.enums.Etat;
+
 @Entity
 public class Ticket {
 	
@@ -19,6 +21,7 @@ public class Ticket {
 	private Integer idTicket;
 	private String nomTicket;
 	private String descriptionTicket;
+	private Etat etat;
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
 	
@@ -39,6 +42,7 @@ public class Ticket {
 		this.idTicket = idTicket;
 		this.nomTicket = nomTicket;
 		this.descriptionTicket = descriptionTicket;
+		this.etat = Etat.TO_DO;
 		this.ticketCreationDate = ticketCreationDate;
 		this.ticketUpdateDate = ticketUpdateDate;
 		this.ressource = ressource;
@@ -78,6 +82,14 @@ public class Ticket {
 		this.ticketCreationDate = ticketCreationDate;
 	}
 
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
 	public Date getTicketUpdateDate() {
 		return ticketUpdateDate;
 	}
@@ -113,9 +125,11 @@ public class Ticket {
 	@Override
 	public String toString() {
 		return "Ticket [idTicket=" + idTicket + ", nomTicket=" + nomTicket + ", descriptionTicket=" + descriptionTicket
-				+ ", ticketCreationDate=" + ticketCreationDate + ", ticketUpdateDate=" + ticketUpdateDate
-				+ ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques + "]";
+				+ ", etat=" + etat + ", ticketCreationDate=" + ticketCreationDate + ", ticketUpdateDate="
+				+ ticketUpdateDate + ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques
+				+ "]";
 	}
+
 	
 	
 

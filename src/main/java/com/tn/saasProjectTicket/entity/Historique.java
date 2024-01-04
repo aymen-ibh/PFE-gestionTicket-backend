@@ -1,5 +1,6 @@
 package com.tn.saasProjectTicket.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,25 +18,31 @@ public class Historique {
 	@Id
 	@GeneratedValue
 	private Integer idHistorique;
-	private Date dateHistorique;
+	private LocalDateTime dateHistorique; //date de l'action effectuée
+	private String descriptionAction; //description detaillé de l'action effectuée
+	private String ancienneValeur;
+	private String nouvelleValeur;
+	private String typeChangement;
+	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Ticket ticket;
-	@ManyToMany(cascade = CascadeType.ALL)
-	private Set<Etat> etats;
+
 	
 	public Historique() {
 		super();
 	}
-	
 
-	public Historique(Integer idHistorique, Date dateHistorique, Ticket ticket, Set<Etat> etats) {
+	public Historique(Integer idHistorique, LocalDateTime dateHistorique, String descriptionAction,
+			String ancienneValeur, String nouvelleValeur, String typeChangement, Ticket ticket) {
 		super();
 		this.idHistorique = idHistorique;
 		this.dateHistorique = dateHistorique;
+		this.descriptionAction = descriptionAction;
+		this.ancienneValeur = ancienneValeur;
+		this.nouvelleValeur = nouvelleValeur;
+		this.typeChangement = typeChangement;
 		this.ticket = ticket;
-		this.etats = etats;
 	}
-
 
 	public Integer getIdHistorique() {
 		return idHistorique;
@@ -45,11 +52,11 @@ public class Historique {
 		this.idHistorique = idHistorique;
 	}
 
-	public Date getDateHistorique() {
+	public LocalDateTime getDateHistorique() {
 		return dateHistorique;
 	}
 
-	public void setDateHistorique(Date dateHistorique) {
+	public void setDateHistorique(LocalDateTime dateHistorique) {
 		this.dateHistorique = dateHistorique;
 	}
 
@@ -61,20 +68,46 @@ public class Historique {
 		this.ticket = ticket;
 	}
 
-	public Set<Etat> getEtats() {
-		return etats;
+	public String getDescriptionAction() {
+		return descriptionAction;
 	}
 
-	public void setEtats(Set<Etat> etats) {
-		this.etats = etats;
+	public void setDescriptionAction(String descriptionAction) {
+		this.descriptionAction = descriptionAction;
 	}
 
+	public String getAncienneValeur() {
+		return ancienneValeur;
+	}
+
+	public void setAncienneValeur(String ancienneValeur) {
+		this.ancienneValeur = ancienneValeur;
+	}
+
+	public String getNouvelleValeur() {
+		return nouvelleValeur;
+	}
+
+	public void setNouvelleValeur(String nouvelleValeur) {
+		this.nouvelleValeur = nouvelleValeur;
+	}
+
+	public String getTypeChangement() {
+		return typeChangement;
+	}
+
+	public void setTypeChangement(String typeChangement) {
+		this.typeChangement = typeChangement;
+	}
 
 	@Override
 	public String toString() {
-		return "Historique [idHistorique=" + idHistorique + ", dateHistorique=" + dateHistorique + ", ticket=" + ticket
-				+ ", etats=" + etats + "]";
+		return "Historique [idHistorique=" + idHistorique + ", dateHistorique=" + dateHistorique
+				+ ", descriptionAction=" + descriptionAction + ", ancienneValeur=" + ancienneValeur
+				+ ", nouvelleValeur=" + nouvelleValeur + ", typeChangement=" + typeChangement + ", ticket=" + ticket
+				+ "]";
 	}
-	
+
+
 
 }
