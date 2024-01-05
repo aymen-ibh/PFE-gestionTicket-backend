@@ -7,15 +7,18 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Historique;
 import com.tn.saasProjectTicket.entity.Ticket;
+import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 import com.tn.saasProjectTicket.enums.Etat;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.HistoriqueRepository;
 import com.tn.saasProjectTicket.repository.TicketRepository;
 import com.tn.saasProjectTicket.service.TicketService;
 
+@Service
 public class TicketServiceImpl implements TicketService {
 	
 	@Autowired
@@ -86,6 +89,19 @@ public class TicketServiceImpl implements TicketService {
 		history.setNouvelleValeur(newValue);
 		history.setTypeChangement(typeChangement);
 		historiqueRepository.save(history);
+	}
+
+	@Override
+	public Set<Ticket> findTicketsByCriteria(TicketCriteriaDTO criteria) {
+		
+		return ticketRepository.findByCriteria(
+				criteria.getIdTicket(),
+				criteria.getNomTicket(),
+				criteria.getDescriptionTicket(),
+				criteria.getEtat(),
+				criteria.getStartDate(),
+				criteria.getEndDate()
+				);
 	}
 
 }

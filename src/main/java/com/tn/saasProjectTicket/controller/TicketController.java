@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tn.saasProjectTicket.entity.Ticket;
+import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 import com.tn.saasProjectTicket.service.TicketService;
 
 @RestController
@@ -49,4 +50,10 @@ public class TicketController {
 		ticketService.deleteTicket(idTicket);
 		return new ResponseEntity<String>("Ticket is deleted successfully!",HttpStatus.OK);
 	}
+	
+	@GetMapping("/search")
+    public ResponseEntity<Set<Ticket>> getTickets(TicketCriteriaDTO filter) {
+        Set<Ticket> tickets = ticketService.findTicketsByCriteria(filter);
+        return ResponseEntity.ok(tickets);
+    }
 }

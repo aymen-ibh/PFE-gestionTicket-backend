@@ -3,6 +3,7 @@ package com.tn.saasProjectTicket.service;
 import java.util.Set;
 
 import com.tn.saasProjectTicket.entity.Ticket;
+import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 
 public interface TicketService {
 	
@@ -11,4 +12,5 @@ public interface TicketService {
 	Ticket getTicket(int idTicket);
 	Set<Ticket> getAllTickets();
 	void deleteTicket(int idTicket);
+	Set<Ticket> findTicketsByCriteria(TicketCriteriaDTO criteria);
 }
