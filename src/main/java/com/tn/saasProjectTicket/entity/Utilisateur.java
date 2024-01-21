@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Utilisateur {
@@ -21,6 +23,7 @@ public class Utilisateur {
 	private String email;
 	private String firstName;
 	private String lastName;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	private Date creationDate;
 	private Date updateDate;

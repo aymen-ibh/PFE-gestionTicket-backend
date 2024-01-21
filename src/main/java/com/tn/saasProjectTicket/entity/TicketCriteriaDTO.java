@@ -12,6 +12,7 @@ public class TicketCriteriaDTO {
 	private Etat etat;
 	private Date startDate;
     private Date endDate;
+    private Integer creePar;
 	public Integer getIdTicket() {
 		return idTicket;
 	}
@@ -48,11 +49,18 @@ public class TicketCriteriaDTO {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public Integer getCreePar() {
+		return creePar;
+	}
+	public void setCreePar(Integer creePar) {
+		this.creePar = creePar;
+	}
 	public TicketCriteriaDTO() {
 		super();
 	}
 	public TicketCriteriaDTO(Integer idTicket, String nomTicket, String descriptionTicket, Etat etat, Date startDate,
-			Date endDate) {
+			Date endDate,Integer creePar) {
 		super();
 		this.idTicket = idTicket;
 		this.nomTicket = nomTicket;
@@ -60,6 +68,7 @@ public class TicketCriteriaDTO {
 		this.etat = etat;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.creePar = creePar;
 	}
     
     

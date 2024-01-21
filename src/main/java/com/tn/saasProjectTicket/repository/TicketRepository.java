@@ -18,12 +18,14 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	           "(:descriptionTicket IS NULL OR t.descriptionTicket LIKE %:descriptionTicket%) AND " +
 	           "(:etat IS NULL OR t.etat = :etat) AND " +
 	           "(cast(:startDate as date) IS NULL OR t.ticketCreationDate >= :startDate) AND " +
-	           "(cast(:endDate as date) IS NULL OR t.ticketCreationDate <= :endDate)")
+	           "(cast(:endDate as date) IS NULL OR t.ticketCreationDate <= :endDate) AND " +
+	           "(:creePar IS NULL or t.ressource.id = :creePar)")
 	    Set<Ticket> findByCriteria(
 	            @Param("idTicket") Integer idTicket,
 	            @Param("nomTicket") String nomTicket,
 	            @Param("descriptionTicket") String descriptionTicket,
 	            @Param("etat") Etat etat,
 	            @Param("startDate") Date startDate,
-	            @Param("endDate") Date endDate);
+	            @Param("endDate") Date endDate,
+	            @Param("creePar") Integer creePar);
 }

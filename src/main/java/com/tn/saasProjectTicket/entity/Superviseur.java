@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -16,8 +17,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class Superviseur extends Utilisateur {
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "societe_id", referencedColumnName = "idSociete")
+    @JoinColumn(name = "societe_id")
 	private Societe societe;
+	
 
 	public Superviseur() {
 		super();

@@ -28,7 +28,6 @@ public class Societe {
 	private Date societeUpdateDate;
 	
 	@OneToOne(mappedBy = "societe",fetch = FetchType.LAZY)
-	@JsonIgnore
 	private Superviseur superviseur;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Client> clients;

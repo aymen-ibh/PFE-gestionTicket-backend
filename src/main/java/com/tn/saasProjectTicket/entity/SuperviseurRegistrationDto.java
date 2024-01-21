@@ -2,13 +2,17 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class SuperviseurRegistrationDto {
 	//Informations du superviseur:
-	private String username;
-	private String password;
-	private String email;
-	private String firstName;
-	private String lastName;
+	private int idSuperviseur;
+	private String username;//
+	private String password;//
+	private String email;//
+	private String firstName;//
+	private String lastName;//
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	private Date creationDate;
 	private Date updateDate;
@@ -16,9 +20,9 @@ public class SuperviseurRegistrationDto {
 	private boolean isActif;
 	
 	//Informations du societe:
-	private String nomSociete;
-	private String adresse;
-	private String secteurActivite;
+	private String nomSociete;//
+	private String adresse;//
+	private String secteurActivite;//
 	private Date societeCreationDate;
 	private Date societeUpdateDate;
 	
@@ -27,10 +31,11 @@ public class SuperviseurRegistrationDto {
 		super();
 	}
 	
-	public SuperviseurRegistrationDto(String username, String password, String email, String firstName, String lastName,
+	public SuperviseurRegistrationDto(int id,String username, String password, String email, String firstName, String lastName,
 			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String nomSociete,
 			String adresse, String secteurActivite, Date societeCreationDate, Date societeUpdateDate) {
 		super();
+		this.idSuperviseur = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -48,6 +53,15 @@ public class SuperviseurRegistrationDto {
 		this.societeUpdateDate = societeUpdateDate;
 	}
 
+
+	
+	public int getIdSuperviseur() {
+		return idSuperviseur;
+	}
+
+	public void setIdSuperviseur(int idSuperviseur) {
+		this.idSuperviseur = idSuperviseur;
+	}
 
 	public String getUsername() {
 		return username;

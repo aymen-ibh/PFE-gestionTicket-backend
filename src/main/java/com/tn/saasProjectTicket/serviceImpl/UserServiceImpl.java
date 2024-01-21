@@ -2,6 +2,7 @@ package com.tn.saasProjectTicket.serviceImpl;
 
 
 import java.util.Date;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.naming.AuthenticationException;
@@ -104,7 +105,9 @@ public class UserServiceImpl implements UserService {
 			Client client = new Client();
 			client.setEmail(utilisateur.getEmail());
 			client.setUsername(utilisateur.getUsername());
-			client.setPassword(encoder.encode(utilisateur.getPassword()));
+			String generatedPassword = generateSecurePassword();
+			
+			client.setPassword(encoder.encode(generatedPassword));
 			client.setRole(utilisateur.getRole());
 			client.setBirthDate(utilisateur.getBirthDate());
 			client.setFirstName(utilisateur.getFirstName());
@@ -112,8 +115,12 @@ public class UserServiceImpl implements UserService {
 			client.setCreationDate(new Date());
 			client.setUpdateDate(new Date());
 			client.setIsActif(true);
-			mailTicketServiceImpl.sendMAil(
-					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
+			
+			//envoi de l'email
+			String emailContent = "Votre identifiant est : " + utilisateur.getUsername() + 
+                    "<br>Votre mot de passe est : " + generatedPassword;
+			 mailTicketServiceImpl.sendMAil(
+					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailContent);
 			clientRepository.save(client);
 			break;
 		/*case "SUPERVISEUR":
@@ -196,7 +203,7 @@ public class UserServiceImpl implements UserService {
 		}
 		TokenObject tokenObject = new TokenObject();
 		tokenObject.setUsername(userDetails.getUsername());
-
+		tokenObject.setUserId(utilisateur.getUserId());
      
 		String role = userDetails.getAuthorities().isEmpty() ? null :
 		              userDetails.getAuthorities().iterator().next().getAuthority();
@@ -214,6 +221,23 @@ public class UserServiceImpl implements UserService {
      }
 	}
 	
+	public String generateSecurePassword() {
+	    int length = 10; // Longueur du mot de passe
+	    String symbol = "&#@/%=+";
+	    String capLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	    String smallLetter = "abcdefghijklmnopqrstuvwxyz";
+	    String numbers = "0123456789";
+
+	    String finalString = capLetter + smallLetter + numbers + symbol;
+
+	    Random random = new Random();
+	    char[] password = new char[length];
+
+	    for (int i = 0; i < length; i++) {
+	        password[i] = finalString.charAt(random.nextInt(finalString.length()));
+	    }
+	    return new String(password);
+	}
 	
 	
 	

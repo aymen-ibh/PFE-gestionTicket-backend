@@ -46,12 +46,34 @@ public class TicketServiceImpl implements TicketService {
 	public Ticket updateTicket(Ticket ticket, int idTicket) {
 		Ticket ticketExistant = ticketRepository.findById(idTicket).get();
 		String oldData = ticketExistant.toString();
+		String ancienEtat = ticketExistant.getEtat().toString();
+		
 		ticketExistant.setNomTicket(ticket.getNomTicket());
 		ticketExistant.setDescriptionTicket(ticket.getDescriptionTicket());
 		ticketExistant.setTicketUpdateDate(new Date());
 		Ticket updatedTicket = ticketRepository.save(ticketExistant);
 		
-		addHistory(ticketExistant, "Ticket mis à jour", "MODIFICATION", oldData, updatedTicket.toString());
+		String action = "Ticket mis à jour";
+		if(!ticketExistant.getEtat().toString().equals(ancienEtat)) {
+			
+			switch (ticketExistant.getEtat().toString()) {
+			case "TO_DO":
+				action = "Ticket mis à l'état TO_DO";
+				break;
+			case "IN_PROGRESS":
+				action = "Ticket mis à l'état IN_PROGRESS";
+				break;
+			case "DONE":
+				action = "Ticket mis à jour à l'état DONE";
+				break;
+
+			default:
+				action = "Ticket mis à jour";
+				break;
+			}
+		}
+		
+		addHistory(ticketExistant, action, "MODIFICATION", oldData, updatedTicket.toString());
 		
 		return updatedTicket;
 	}
@@ -100,7 +122,8 @@ public class TicketServiceImpl implements TicketService {
 				criteria.getDescriptionTicket(),
 				criteria.getEtat(),
 				criteria.getStartDate(),
-				criteria.getEndDate()
+				criteria.getEndDate(),
+				criteria.getCreePar()
 				);
 	}
 

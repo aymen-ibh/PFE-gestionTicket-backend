@@ -3,7 +3,7 @@ package com.tn.saasProjectTicket.entity;
 public class TokenObject {
 
 	private String login;
-	private Integer idUtilisateur;
+	private Integer userId;
 	private Integer idEmp;
 	private String role;
 	private Integer idEntreprise;
@@ -17,11 +17,11 @@ public class TokenObject {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public Integer getIdUtilisateur() {
-		return idUtilisateur;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setIdUtilisateur(Integer idUtilisateur) {
-		this.idUtilisateur = idUtilisateur;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	public Integer getIdEmp() {
 		return idEmp;
@@ -54,11 +54,11 @@ public class TokenObject {
 		this.login = login;
 	}
 	
-	public TokenObject(String login, Integer idUtilisateur, Integer idEmp, String role, Integer idEntreprise,
+	public TokenObject(String login, Integer userId, Integer idEmp, String role, Integer idEntreprise,
 			Boolean fActifEntreprise, String username) {
 		super();
 		this.login = login;
-		this.idUtilisateur = idUtilisateur;
+		this.userId = userId;
 		this.idEmp = idEmp;
 		this.role = role;
 		this.idEntreprise = idEntreprise;

@@ -1,7 +1,12 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tn.saasProjectTicket.entity.Societe;
 import com.tn.saasProjectTicket.entity.Superviseur;
+import com.tn.saasProjectTicket.entity.SuperviseurCriteriaDTO;
 import com.tn.saasProjectTicket.entity.SuperviseurRegistrationDto;
+import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.exception.domain.EmailAlreadyExistException;
 import com.tn.saasProjectTicket.exception.domain.UserAlreadyExistException;
 import com.tn.saasProjectTicket.repository.SocieteRepository;
@@ -72,5 +79,108 @@ public class SuperviseurServiceImpl implements SuperviseurService {
         
 		return superviseur;
 	}
+
+	@Override
+	public List<SuperviseurRegistrationDto> getAllSuperviseur() {
+		List<Superviseur> listSuperviseur = superviseurRepository.findAll();
+
+		return listSuperviseur.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public SuperviseurRegistrationDto getSuperviseur(int idSuperviseur) {
+		Superviseur superviseur = superviseurRepository.findById(idSuperviseur).orElseThrow(
+				()-> new RessourceNotFoundException("Superviseur","Id",idSuperviseur)
+				);
+		return convertToDto(superviseur);
+	}
+
+	@Override
+	public void deleteSuperviseur(int idSuperviseur) {
+		Superviseur superviseur = superviseurRepository.findById(idSuperviseur).orElseThrow(
+				()-> new RessourceNotFoundException("Superviseur", "Id", idSuperviseur)
+				);
+		superviseurRepository.delete(superviseur);
+		
+	}
+
+	@Override
+	public SuperviseurRegistrationDto updateSuperviseur(SuperviseurRegistrationDto registrationDto, int idSuperviseur) {
+		Superviseur superviseur = superviseurRepository.findById(idSuperviseur).orElseThrow(
+				()-> new RessourceNotFoundException("Superviseur", "Id", idSuperviseur)
+				);
+		superviseur.setEmail(registrationDto.getEmail());
+		superviseur.setUsername(registrationDto.getUsername());
+		superviseur.setPassword(encoder.encode(registrationDto.getPassword()));
+		superviseur.setBirthDate(registrationDto.getBirthDate());
+		superviseur.setFirstName(registrationDto.getFirstName());
+		superviseur.setLastName(registrationDto.getLastName());
+		
+		Societe societe = societeRepository.findById(superviseur.getSociete().getIdSociete()).orElseThrow(
+				()-> new RessourceNotFoundException("Societe", "Id", superviseur.getSociete().getIdSociete())
+				);
+		societe.setNomSociete(registrationDto.getNomSociete());
+		societe.setAdresse(registrationDto.getAdresse());
+		societe.setSecteurActivite(registrationDto.getSecteurActivite());
+		
+		superviseurRepository.save(superviseur);
+		societeRepository.save(societe);
+		return convertToDto(superviseur);
+	}
+	
+	@Override
+	public List<SuperviseurRegistrationDto> findSuperviseurByCriteria(SuperviseurCriteriaDTO superviseurDto) {
+		 List<Superviseur> listSuperviseur =  superviseurRepository.findByCriteria(
+				superviseurDto.getId(),
+				superviseurDto.getUsername(),
+				superviseurDto.getEmail(),
+				superviseurDto.getFirstName(),
+				superviseurDto.getLastName(),
+				superviseurDto.getBirthDate(),
+				superviseurDto.getIsActif(),
+				superviseurDto.getNomSociete()
+				);
+		 return listSuperviseur.stream()
+					.map(this::convertToDto)
+					.collect(Collectors.toList());
+	}
+	
+	private SuperviseurRegistrationDto convertToDto(Superviseur superviseur) {
+		SuperviseurRegistrationDto dto = new SuperviseurRegistrationDto();
+		dto.setIdSuperviseur(superviseur.getUserId());
+		dto.setUsername(superviseur.getUsername());
+		dto.setEmail(superviseur.getEmail());
+		dto.setPassword(superviseur.getPassword());
+		dto.setFirstName(superviseur.getFirstName());
+		dto.setLastName(superviseur.getLastName());
+		dto.setBirthDate(superviseur.getBirthDate());
+		dto.setCreationDate(superviseur.getCreationDate());
+		dto.setUpdateDate(superviseur.getUpdateDate());
+		dto.setRole(superviseur.getRole());
+		dto.setActif(superviseur.isActif());
+		
+		dto.setNomSociete(superviseur.getSociete().getNomSociete());
+		dto.setAdresse(superviseur.getSociete().getAdresse());
+		dto.setSecteurActivite(superviseur.getSociete().getSecteurActivite());
+		dto.setSocieteCreationDate(superviseur.getSociete().getSocieteCreationDate());
+		dto.setSocieteUpdateDate(superviseur.getSociete().getSocieteUpdateDate());
+		
+		return dto;
+		
+	}
+
+
+	@Override
+	public SuperviseurRegistrationDto changerEtatSuperviseur(int idSuperviseur, boolean etatActif) {
+		Superviseur superviseur = superviseurRepository.findById(idSuperviseur).orElseThrow(
+				() -> new RessourceNotFoundException("Superviseur", "Id", idSuperviseur)
+				);
+		superviseur.setIsActif(etatActif);
+		superviseurRepository.save(superviseur);
+		return convertToDto(superviseur);
+	}
+
 
 }
