@@ -4,8 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ClientDTO {
-	private int idClient;
+public class RessourceDTO {
+	private int idRessource;
 	private String username;//
 	private String email;//
 	private String firstName;//
@@ -16,13 +16,12 @@ public class ClientDTO {
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
-	private String nomProjet;
-	
-	public int getIdClient() {
-		return idClient;
+	private String nomTicket;
+	public int getIdRessource() {
+		return idRessource;
 	}
-	public void setIdClient(int idClient) {
-		this.idClient = idClient;
+	public void setIdRessource(int idRessource) {
+		this.idRessource = idRessource;
 	}
 	public String getUsername() {
 		return username;
@@ -78,20 +77,19 @@ public class ClientDTO {
 	public void setActif(boolean isActif) {
 		this.isActif = isActif;
 	}
-	public String getNomProjet() {
-		return nomProjet;
+	public String getNomTicket() {
+		return nomTicket;
 	}
-	public void setNomProjet(String nomProjet) {
-		this.nomProjet = nomProjet;
+	public void setNomTicket(String nomTicket) {
+		this.nomTicket = nomTicket;
 	}
-	
-	public ClientDTO() {
+	public RessourceDTO() {
 		super();
 	}
-	public ClientDTO(int idClient, String username, String email, String firstName, String lastName, Date birthDate,
-			Date creationDate, Date updateDate, String role, boolean isActif,String nomProjet) {
+	public RessourceDTO(int idRessource, String username, String email, String firstName, String lastName,
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String nomTicket) {
 		super();
-		this.idClient = idClient;
+		this.idRessource = idRessource;
 		this.username = username;
 		this.email = email;
 		this.firstName = firstName;
@@ -101,7 +99,8 @@ public class ClientDTO {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
-		this.nomProjet = nomProjet;
+		this.nomTicket = nomTicket;
 	}
+	
 	
 }

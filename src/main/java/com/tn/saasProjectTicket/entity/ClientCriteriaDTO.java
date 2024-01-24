@@ -4,24 +4,21 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ClientDTO {
-	private int idClient;
-	private String username;//
-	private String email;//
-	private String firstName;//
-	private String lastName;//
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date birthDate;
-	private Date creationDate;
-	private Date updateDate;
-	private String role;
-	private boolean isActif;
-	private String nomProjet;
-	
-	public int getIdClient() {
+public class ClientCriteriaDTO {
+	private Integer idClient;
+    private String username;
+    private String email;
+    private String firstName;
+    private String lastName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date birthDate;
+    private Boolean isActif;
+    private String nomProjet;
+    
+	public Integer getIdClient() {
 		return idClient;
 	}
-	public void setIdClient(int idClient) {
+	public void setIdClient(Integer idClient) {
 		this.idClient = idClient;
 	}
 	public String getUsername() {
@@ -54,28 +51,10 @@ public class ClientDTO {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public Date getCreationDate() {
-		return creationDate;
-	}
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public boolean isActif() {
+	public Boolean getIsActif() {
 		return isActif;
 	}
-	public void setActif(boolean isActif) {
+	public void setIsActif(Boolean isActif) {
 		this.isActif = isActif;
 	}
 	public String getNomProjet() {
@@ -84,12 +63,11 @@ public class ClientDTO {
 	public void setNomProjet(String nomProjet) {
 		this.nomProjet = nomProjet;
 	}
-	
-	public ClientDTO() {
+	public ClientCriteriaDTO() {
 		super();
 	}
-	public ClientDTO(int idClient, String username, String email, String firstName, String lastName, Date birthDate,
-			Date creationDate, Date updateDate, String role, boolean isActif,String nomProjet) {
+	public ClientCriteriaDTO(Integer idClient, String username, String email, String firstName, String lastName,
+			Date birthDate, Boolean isActif, String nomProjet) {
 		super();
 		this.idClient = idClient;
 		this.username = username;
@@ -97,11 +75,8 @@ public class ClientDTO {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDate = birthDate;
-		this.creationDate = creationDate;
-		this.updateDate = updateDate;
-		this.role = role;
 		this.isActif = isActif;
 		this.nomProjet = nomProjet;
 	}
-	
+    
 }

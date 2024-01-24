@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Client;
+import com.tn.saasProjectTicket.entity.ClientCriteriaDTO;
 import com.tn.saasProjectTicket.entity.ClientDTO;
 import com.tn.saasProjectTicket.entity.Societe;
 import com.tn.saasProjectTicket.entity.SocieteDTO;
@@ -35,6 +36,22 @@ public class ClientServiceImpl implements ClientService {
 				()-> new RessourceNotFoundException("Client", "Id", idClient)
 				);
 		return convertToDto(client);
+	}
+	
+	@Override
+	public List<ClientDTO> findClientByCriteria(ClientCriteriaDTO criteria) {
+		List<Client> listClient = this.clientRepository.findByCriteria
+				(criteria.getIdClient(),
+			     criteria.getUsername(),
+			     criteria.getEmail(),
+			     criteria.getFirstName(),
+			     criteria.getLastName(),
+			     criteria.getBirthDate(),
+			     criteria.getIsActif(),
+			     criteria.getNomProjet());
+		return listClient.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
 	}
 	
 	private ClientDTO convertToDto(Client client) {

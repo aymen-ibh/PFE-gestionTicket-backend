@@ -13,31 +13,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tn.saasProjectTicket.entity.ClientCriteriaDTO;
-import com.tn.saasProjectTicket.entity.ClientDTO;
-import com.tn.saasProjectTicket.service.ClientService;
+import com.tn.saasProjectTicket.entity.ManagerCriteriaDTO;
+import com.tn.saasProjectTicket.entity.ManagerDTO;
+import com.tn.saasProjectTicket.service.ManagerService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/client")
-public class ClientController {
-
+@RequestMapping("/manager")
+public class ManagerController {
+	
 	@Autowired
-	private ClientService clientService;
+	private ManagerService managerService;
 	
 	@GetMapping
-	public List<ClientDTO> getAllClients(){
-		return this.clientService.getAllClients();
+	public List<ManagerDTO> getAllClients(){
+		return this.managerService.getAllManagers();
 	}
 	
-	@GetMapping("/{idClient}")
-	public ResponseEntity<ClientDTO> getClient(@PathVariable int idClient){
-		return new ResponseEntity<ClientDTO>(this.clientService.getClient(idClient),HttpStatus.OK);
+	@GetMapping("/{idManager}")
+	public ResponseEntity<ManagerDTO> getClient(@PathVariable int idManager){
+		return new ResponseEntity<ManagerDTO>(this.managerService.getManager(idManager),HttpStatus.OK);
 	}
 	
 	@PostMapping("/search")
-	public ResponseEntity<List<ClientDTO>> filterClient(@RequestBody ClientCriteriaDTO criteria){
-		return new ResponseEntity<List<ClientDTO>>(this.clientService.findClientByCriteria(criteria),HttpStatus.OK);
+	public ResponseEntity<List<ManagerDTO>> filterClient(@RequestBody ManagerCriteriaDTO criteria){
+		return new ResponseEntity<List<ManagerDTO>>(this.managerService.findManagerByCriteria(criteria),HttpStatus.OK);
 	}
-	
+
 }

@@ -142,7 +142,8 @@ public class UserServiceImpl implements UserService {
 			Manager manager = new Manager();
 			manager.setEmail(utilisateur.getEmail());
 			manager.setUsername(utilisateur.getUsername());
-			manager.setPassword(encoder.encode(utilisateur.getPassword()));
+			String generatedMPassword = generateSecurePassword();
+			manager.setPassword(encoder.encode(generatedMPassword));
 			manager.setRole(utilisateur.getRole());
 			manager.setBirthDate(utilisateur.getBirthDate());
 			manager.setFirstName(utilisateur.getFirstName());
@@ -150,15 +151,19 @@ public class UserServiceImpl implements UserService {
 			manager.setCreationDate(new Date());
 			manager.setUpdateDate(new Date());
 			manager.setIsActif(true);
-			mailTicketServiceImpl.sendMAil(
-					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
+			//envoi de l'email
+			String emailMContent = "Votre identifiant est : " + utilisateur.getUsername() + 
+                    "<br>Votre mot de passe est : " + generatedMPassword;
+			 mailTicketServiceImpl.sendMAil(
+					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailMContent);
 			managerRepository.save(manager);
 			break;
 		case "RESSOURCE":
 			Ressource ressource = new Ressource();
 			ressource.setEmail(utilisateur.getEmail());
 			ressource.setUsername(utilisateur.getUsername());
-			ressource.setPassword(encoder.encode(utilisateur.getPassword()));
+			String generatedRPassword = generateSecurePassword();
+			ressource.setPassword(encoder.encode(generatedRPassword));
 			ressource.setRole(utilisateur.getRole());
 			ressource.setBirthDate(utilisateur.getBirthDate());
 			ressource.setFirstName(utilisateur.getFirstName());
@@ -166,8 +171,11 @@ public class UserServiceImpl implements UserService {
 			ressource.setCreationDate(new Date());
 			ressource.setUpdateDate(new Date());
 			ressource.setIsActif(true);
-			mailTicketServiceImpl.sendMAil(
-					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
+			//envoi de l'email
+			String emailRContent = "Votre identifiant est : " + utilisateur.getUsername() + 
+                    "<br>Votre mot de passe est : " + generatedRPassword;
+			 mailTicketServiceImpl.sendMAil(
+					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailRContent);
 			ressourceRepository.save(ressource);
 			break;
 		default:

@@ -42,7 +42,7 @@ public class ProjetServiceImpl implements ProjetService {
 		int idClient = projet.getClient().getUserId();
 		int idManager = projet.getManager().getUserId();
 		Client client = clientRepository.findById(idClient).get();
-		Manager manager = managerRepository.findById(idManager);
+		Manager manager = managerRepository.findById(idManager).get();
 		newProjet.setClient(client);
 		newProjet.setManager(manager);
 		projetRepository.save(newProjet);
@@ -67,7 +67,7 @@ public class ProjetServiceImpl implements ProjetService {
 		int idClient = projet.getClient().getUserId();
 		int idManager = projet.getManager().getUserId();
 		Client client = clientRepository.findById(idClient).get();
-		Manager manager = managerRepository.findById(idManager);
+		Manager manager = managerRepository.findById(idManager).get();
 		projetExistant.setClient(client);
 		projetExistant.setManager(manager);
 		projetRepository.save(projetExistant);

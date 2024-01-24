@@ -4,8 +4,8 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class ClientDTO {
-	private int idClient;
+public class ManagerDTO {
+	private int idManager;
 	private String username;//
 	private String email;//
 	private String firstName;//
@@ -18,11 +18,11 @@ public class ClientDTO {
 	private boolean isActif;
 	private String nomProjet;
 	
-	public int getIdClient() {
-		return idClient;
+	public int getIdManager() {
+		return idManager;
 	}
-	public void setIdClient(int idClient) {
-		this.idClient = idClient;
+	public void setIdManager(int idManager) {
+		this.idManager = idManager;
 	}
 	public String getUsername() {
 		return username;
@@ -78,20 +78,20 @@ public class ClientDTO {
 	public void setActif(boolean isActif) {
 		this.isActif = isActif;
 	}
+	
 	public String getNomProjet() {
 		return nomProjet;
 	}
 	public void setNomProjet(String nomProjet) {
 		this.nomProjet = nomProjet;
 	}
-	
-	public ClientDTO() {
+	public ManagerDTO() {
 		super();
 	}
-	public ClientDTO(int idClient, String username, String email, String firstName, String lastName, Date birthDate,
+	public ManagerDTO(int idManager, String username, String email, String firstName, String lastName, Date birthDate,
 			Date creationDate, Date updateDate, String role, boolean isActif,String nomProjet) {
 		super();
-		this.idClient = idClient;
+		this.idManager = idManager;
 		this.username = username;
 		this.email = email;
 		this.firstName = firstName;
