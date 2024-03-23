@@ -4,21 +4,33 @@ import java.util.Date;
 
 public class ProjetCriteriaDTO {
 	
-	private Integer clientId;
+	private Integer idManager;
+	private Integer idClient;
     private Boolean isActif;
     private Date datedebutProjet;
     private Date dateFinProjet;
     private Date projetCreationDate;
     private String nomProjet;
-    
-    
-	public Integer getClientId() {
-		return clientId;
+   
+
+
+	public Integer getIdManager() {
+		return idManager;
 	}
 
 
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
+	public void setIdManager(Integer idManager) {
+		this.idManager = idManager;
+	}
+
+
+	public Integer getIdClient() {
+		return idClient;
+	}
+
+
+	public void setIdClient(Integer idClient) {
+		this.idClient = idClient;
 	}
 
 
@@ -72,10 +84,11 @@ public class ProjetCriteriaDTO {
 	}
 
 
-	public ProjetCriteriaDTO(Integer clientId, Boolean isActif, Date datedebutProjet, Date dateFinProjet,
-			Date projetCreationDate, String nomProjet) {
+	public ProjetCriteriaDTO(Integer idManager, Integer idClient, Boolean isActif, Date datedebutProjet,
+			Date dateFinProjet, Date projetCreationDate, String nomProjet) {
 		super();
-		this.clientId = clientId;
+		this.idManager = idManager;
+		this.idClient = idClient;
 		this.isActif = isActif;
 		this.datedebutProjet = datedebutProjet;
 		this.dateFinProjet = dateFinProjet;

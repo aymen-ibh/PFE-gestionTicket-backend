@@ -2,6 +2,8 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
+import javax.persistence.Lob;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class SuperviseurRegistrationDto {
@@ -18,6 +20,7 @@ public class SuperviseurRegistrationDto {
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
+	private String photo;
 	
 	//Informations du societe:
 	private String nomSociete;//
@@ -33,7 +36,7 @@ public class SuperviseurRegistrationDto {
 	
 	public SuperviseurRegistrationDto(int id,String username, String password, String email, String firstName, String lastName,
 			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String nomSociete,
-			String adresse, String secteurActivite, Date societeCreationDate, Date societeUpdateDate) {
+			String adresse, String secteurActivite, Date societeCreationDate, Date societeUpdateDate, String photo) {
 		super();
 		this.idSuperviseur = id;
 		this.username = username;
@@ -46,6 +49,7 @@ public class SuperviseurRegistrationDto {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
+		this.photo = photo;
 		this.nomSociete = nomSociete;
 		this.adresse = adresse;
 		this.secteurActivite = secteurActivite;
@@ -153,6 +157,15 @@ public class SuperviseurRegistrationDto {
 	public void setSocieteUpdateDate(Date societeUpdateDate) {
 		this.societeUpdateDate = societeUpdateDate;
 	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
 	
 	
 }

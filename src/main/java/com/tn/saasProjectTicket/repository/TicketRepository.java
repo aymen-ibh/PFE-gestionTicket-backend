@@ -1,6 +1,7 @@
 package com.tn.saasProjectTicket.repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	            @Param("startDate") Date startDate,
 	            @Param("endDate") Date endDate,
 	            @Param("creePar") Integer creePar);
+	
+	List<Ticket> findByProjetIdProjetAndEtat(Integer idProjet, Etat etat);
 }

@@ -2,10 +2,13 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ClientDTO {
-	private int idClient;
+	private int userId;
 	private String username;//
 	private String email;//
 	private String firstName;//
@@ -16,13 +19,14 @@ public class ClientDTO {
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
-	private String nomProjet;
+	@Column(columnDefinition = "text")
+	private String photo;
 	
-	public int getIdClient() {
-		return idClient;
+	public int getUserId() {
+		return userId;
 	}
-	public void setIdClient(int idClient) {
-		this.idClient = idClient;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getUsername() {
 		return username;
@@ -78,20 +82,17 @@ public class ClientDTO {
 	public void setActif(boolean isActif) {
 		this.isActif = isActif;
 	}
-	public String getNomProjet() {
-		return nomProjet;
+	public String getPhoto() {
+		return photo;
 	}
-	public void setNomProjet(String nomProjet) {
-		this.nomProjet = nomProjet;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	
-	public ClientDTO() {
+	public ClientDTO(int userId, String username, String email, String firstName, String lastName, Date birthDate,
+			Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
 		super();
-	}
-	public ClientDTO(int idClient, String username, String email, String firstName, String lastName, Date birthDate,
-			Date creationDate, Date updateDate, String role, boolean isActif,String nomProjet) {
-		super();
-		this.idClient = idClient;
+		this.userId = userId;
 		this.username = username;
 		this.email = email;
 		this.firstName = firstName;
@@ -101,7 +102,12 @@ public class ClientDTO {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
-		this.nomProjet = nomProjet;
+		this.photo = photo;
 	}
+	public ClientDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	
 }

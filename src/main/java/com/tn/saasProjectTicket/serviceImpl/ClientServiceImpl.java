@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.aspectj.apache.bcel.generic.InstructionConstants.Clinit;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Client;
 import com.tn.saasProjectTicket.entity.ClientCriteriaDTO;
 import com.tn.saasProjectTicket.entity.ClientDTO;
+import com.tn.saasProjectTicket.entity.ProjetDTO;
 import com.tn.saasProjectTicket.entity.Societe;
 import com.tn.saasProjectTicket.entity.SocieteDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
@@ -22,6 +24,9 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	private ClientRepository clientRepository;
 
+	@Autowired
+	private ModelMapper mapper;
+	
 	@Override
 	public List<ClientDTO> getAllClients() {
 		List<Client> listClients = this.clientRepository.findAll();
@@ -54,21 +59,18 @@ public class ClientServiceImpl implements ClientService {
 				.collect(Collectors.toList());
 	}
 	
-	private ClientDTO convertToDto(Client client) {
-		ClientDTO dto = new ClientDTO();
-		dto.setIdClient(client.getUserId());
-		dto.setFirstName(client.getFirstName());
-		dto.setLastName(client.getLastName());
-		dto.setEmail(client.getEmail());
-		dto.setUsername(client.getUsername());
-		dto.setBirthDate(client.getBirthDate());
-		dto.setRole(client.getRole());
-		dto.setActif(client.isActif());
-		dto.setCreationDate(client.getCreationDate());
-		dto.setUpdateDate(client.getUpdateDate());
-		
-		return dto;
+	@Override
+	public List<ClientDTO> getClientsBySociete(int idSociete) {
+		List<Client> listClients = this.clientRepository.findBySocieteIdSociete(idSociete);
+		return listClients.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
 	}
+	
+	private ClientDTO convertToDto(Client client) {		
+		return  mapper.map(client, ClientDTO.class);
+	}
+
 
 	
 

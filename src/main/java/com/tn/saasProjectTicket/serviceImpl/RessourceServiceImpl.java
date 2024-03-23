@@ -3,9 +3,11 @@ package com.tn.saasProjectTicket.serviceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tn.saasProjectTicket.entity.ProjetDTO;
 import com.tn.saasProjectTicket.entity.Ressource;
 import com.tn.saasProjectTicket.entity.RessourceCriteriaDTO;
 import com.tn.saasProjectTicket.entity.RessourceDTO;
@@ -18,6 +20,8 @@ public class RessourceServiceImpl implements RessourceService {
 
 	@Autowired
 	private RessourceRepository ressourceRepository;
+	@Autowired
+	ModelMapper mapper;
 	
 	@Override
 	public List<RessourceDTO> getAllRessources() {
@@ -50,20 +54,25 @@ public class RessourceServiceImpl implements RessourceService {
 				.collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<RessourceDTO> getRessourceByTicket(Integer idTicket){
+		List<Ressource> listRessources = this.ressourceRepository.findRessourcesByTicketId(idTicket);
+		return listRessources.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<RessourceDTO> getRessourceNotAssignedToTicketBySociete(Integer idSociete, Integer idTicket){
+		List<Ressource> listRessources = this.ressourceRepository.
+				findRessourcesNotAssignedToTicketBySociete(idSociete, idTicket);
+		return listRessources.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
 	private RessourceDTO convertToDto(Ressource ressource) {
-		RessourceDTO dto = new RessourceDTO();
-		dto.setIdRessource(ressource.getUserId());
-		dto.setFirstName(ressource.getFirstName());
-		dto.setLastName(ressource.getLastName());
-		dto.setEmail(ressource.getEmail());
-		dto.setUsername(ressource.getUsername());
-		dto.setBirthDate(ressource.getBirthDate());
-		dto.setRole(ressource.getRole());
-		dto.setActif(ressource.isActif());
-		dto.setCreationDate(ressource.getCreationDate());
-		dto.setUpdateDate(ressource.getUpdateDate());
-		
-		return dto;
+		return mapper.map(ressource, RessourceDTO.class);
 	}
 
 }

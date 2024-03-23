@@ -2,6 +2,8 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
+import javax.persistence.Lob;
+
 public class SocieteDTO {
 	//info societe
 	private Integer idSociete;
@@ -10,6 +12,8 @@ public class SocieteDTO {
 	private String secteurActivite;
 	private Date societeCreationDate;
 	private Date societeUpdateDate;
+	@Lob
+	private String photo;
 	
 	//info owner(superviseur)
 	private String firstNameOwner;
@@ -69,12 +73,19 @@ public class SocieteDTO {
 	public void setUsernameOwner(String usernameOwner) {
 		this.usernameOwner = usernameOwner;
 	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
 	public SocieteDTO() {
 		super();
 	}
 	public SocieteDTO(Integer idSociete, String nomSociete, String adresse, String secteurActivite,
 			Date societeCreationDate, Date societeUpdateDate, String firstNameOwner, String lastNameOwner,
-			String usernameOwner) {
+			String usernameOwner, String photo) {
 		super();
 		this.idSociete = idSociete;
 		this.nomSociete = nomSociete;
@@ -85,6 +96,7 @@ public class SocieteDTO {
 		this.firstNameOwner = firstNameOwner;
 		this.lastNameOwner = lastNameOwner;
 		this.usernameOwner = usernameOwner;
+		this.photo = photo;
 	}
 	
 	

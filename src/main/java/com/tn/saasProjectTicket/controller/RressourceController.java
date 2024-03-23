@@ -38,6 +38,18 @@ public class RressourceController {
 		return new ResponseEntity<RessourceDTO>(this.ressourceService.getRessource(idRessource),HttpStatus.OK);
 	}
 	
+	@GetMapping("/ticket/{idTicket}")
+	public ResponseEntity<List<RessourceDTO>> getRessourceByTicket(@PathVariable Integer idTicket){
+		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService.getRessourceByTicket(idTicket), HttpStatus.OK);
+	}
+	
+	@GetMapping("/ticket/{idSociete}/{idTicket}")
+	public ResponseEntity<List<RessourceDTO>> getRessourceNotAssignedToTicketBySociete(@PathVariable Integer idSociete,
+			                                                                           @PathVariable Integer idTicket){
+		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService
+				.getRessourceNotAssignedToTicketBySociete(idSociete, idTicket), HttpStatus.OK);
+	}
+	
 	@PostMapping("/search")
 	public ResponseEntity<List<RessourceDTO>> filterClient(@RequestBody RessourceCriteriaDTO criteria){
 		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService.findRessourceByCriteria(criteria),HttpStatus.OK);

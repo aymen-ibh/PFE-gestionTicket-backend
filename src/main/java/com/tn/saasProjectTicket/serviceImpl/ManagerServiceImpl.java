@@ -3,6 +3,7 @@ package com.tn.saasProjectTicket.serviceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.tn.saasProjectTicket.entity.Manager;
 import com.tn.saasProjectTicket.entity.ManagerCriteriaDTO;
 import com.tn.saasProjectTicket.entity.ManagerDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
+import com.tn.saasProjectTicket.repository.EmployeRepository;
 import com.tn.saasProjectTicket.repository.ManagerRepository;
 import com.tn.saasProjectTicket.service.ManagerService;
 
@@ -18,6 +20,10 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Autowired
 	private ManagerRepository managerRepository;
+	@Autowired
+	private EmployeRepository employeRepository;
+	@Autowired
+	private ModelMapper mapper;
 	
 	@Override
 	public List<ManagerDTO> getAllManagers() {
@@ -51,20 +57,17 @@ public class ManagerServiceImpl implements ManagerService {
 				.collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<ManagerDTO> getManagersBySociete(int idSociete){
+		List<Manager> listManagers = this.employeRepository.findBySocieteIdSociete(idSociete);
+		return listManagers.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
 	private ManagerDTO convertToDto(Manager manager) {
-		ManagerDTO dto = new ManagerDTO();
-		dto.setIdManager(manager.getUserId());
-		dto.setFirstName(manager.getFirstName());
-		dto.setLastName(manager.getLastName());
-		dto.setEmail(manager.getEmail());
-		dto.setUsername(manager.getUsername());
-		dto.setBirthDate(manager.getBirthDate());
-		dto.setRole(manager.getRole());
-		dto.setActif(manager.isActif());
-		dto.setCreationDate(manager.getCreationDate());
-		dto.setUpdateDate(manager.getUpdateDate());
-		
-		return dto;
+		return mapper.map(manager, ManagerDTO.class);
+
 	}
 
 }

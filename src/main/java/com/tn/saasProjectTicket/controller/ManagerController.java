@@ -31,12 +31,17 @@ public class ManagerController {
 	}
 	
 	@GetMapping("/{idManager}")
-	public ResponseEntity<ManagerDTO> getClient(@PathVariable int idManager){
+	public ResponseEntity<ManagerDTO> getManager(@PathVariable int idManager){
 		return new ResponseEntity<ManagerDTO>(this.managerService.getManager(idManager),HttpStatus.OK);
 	}
 	
+	@GetMapping("/{idSociete}/managers")
+	public ResponseEntity<List<ManagerDTO>> getManagersBySociete(@PathVariable int idSociete){
+		return new ResponseEntity<List<ManagerDTO>>(this.managerService.getManagersBySociete(idSociete),HttpStatus.OK);
+	}
+	
 	@PostMapping("/search")
-	public ResponseEntity<List<ManagerDTO>> filterClient(@RequestBody ManagerCriteriaDTO criteria){
+	public ResponseEntity<List<ManagerDTO>> filterManager(@RequestBody ManagerCriteriaDTO criteria){
 		return new ResponseEntity<List<ManagerDTO>>(this.managerService.findManagerByCriteria(criteria),HttpStatus.OK);
 	}
 

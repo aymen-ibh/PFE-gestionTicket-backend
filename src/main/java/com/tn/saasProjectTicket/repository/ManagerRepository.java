@@ -29,4 +29,6 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 		                            @Param("birthDate") Date birthDate,
 		                            @Param("isActif") Boolean isActif,
 		                            @Param("nomProjet") String nomProjet);
+	
+	
 }

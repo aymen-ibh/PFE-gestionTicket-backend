@@ -31,13 +31,16 @@ public class Societe {
 	private Superviseur superviseur;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Client> clients;
+	@OneToMany
+	private Set<Employe> employes;
 	
 	public Societe() {
 		super();
 	}
 
 	public Societe(Integer idSociete, String nomSociete, String adresse, String secteurActivite,
-			Date societeCreationDate, Date societeUpdateDate, Superviseur superviseur, Set<Client> clients) {
+			Date societeCreationDate, Date societeUpdateDate, Superviseur superviseur, Set<Client> clients,
+			Set<Employe> employes) {
 		super();
 		this.idSociete = idSociete;
 		this.nomSociete = nomSociete;
@@ -47,6 +50,7 @@ public class Societe {
 		this.societeUpdateDate = societeUpdateDate;
 		this.superviseur = superviseur;
 		this.clients = clients;
+		this.employes = employes;
 	}
 
 	public Integer getIdSociete() {
@@ -111,6 +115,15 @@ public class Societe {
 
 	public void setClients(Set<Client> clients) {
 		this.clients = clients;
+	}
+	
+
+	public Set<Employe> getEmployes() {
+		return employes;
+	}
+
+	public void setEmployes(Set<Employe> employes) {
+		this.employes = employes;
 	}
 
 	@Override

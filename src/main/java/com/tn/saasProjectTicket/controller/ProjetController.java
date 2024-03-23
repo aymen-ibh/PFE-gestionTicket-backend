@@ -1,6 +1,7 @@
 package com.tn.saasProjectTicket.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
+import com.tn.saasProjectTicket.entity.ProjetDTO;
 import com.tn.saasProjectTicket.service.ProjetService;
 
 @RestController
@@ -25,6 +27,26 @@ public class ProjetController {
 	@Autowired
 	ProjetService projetService;
 	
+	@GetMapping
+	public List<ProjetDTO> getAllProjects(){
+		return this.projetService.getAllProjects();
+	}
+	
+	@GetMapping("{idSociete}/myProjects")
+	public ResponseEntity<List<ProjetDTO>> getSocieteProjets(@PathVariable int idSociete){
+		return new ResponseEntity<List<ProjetDTO>>(this.projetService.getSocieteProjets(idSociete),HttpStatus.OK);
+	}
+	
+	@GetMapping("{idClient}/clientProjects")
+	public ResponseEntity<List<ProjetDTO>> getProjectsByClient(@PathVariable int idClient){
+		return new ResponseEntity<List<ProjetDTO>>(this.projetService.getProjectsByClient(idClient),HttpStatus.OK);
+	}
+	
+	@GetMapping("{idManager}/managerProjects")
+	public ResponseEntity<List<ProjetDTO>> getProjectsByManager(@PathVariable int idManager){
+		return new ResponseEntity<List<ProjetDTO>>(this.projetService.getProjectsByManager(idManager),HttpStatus.OK);
+	}
+	
 	//ajout projet+affectation client et manager
 	@PostMapping("/ajouterProjet")
     public ResponseEntity<?> ajouterProjet(
@@ -32,14 +54,14 @@ public class ProjetController {
 		return new ResponseEntity<>(projetService.ajouterProjet(projet), HttpStatus.CREATED);
 	}
 	
-	@GetMapping("afficherProjet/{idProjet}")
-	public ResponseEntity<Projet> afficherProjet(@PathVariable("idProjet") int id){
-		return new ResponseEntity<Projet>(projetService.getProjetById(id),HttpStatus.OK);
+	@GetMapping("/{idProjet}")
+	public ResponseEntity<ProjetDTO> afficherProjet(@PathVariable("idProjet") int id){
+		return new ResponseEntity<ProjetDTO>(projetService.getProjetById(id),HttpStatus.OK);
 	}
 
-    @GetMapping("/search")
-	public ResponseEntity<Set<Projet>> findProjetsByCriteria(ProjetCriteriaDTO criteria) {
-	    Set<Projet> projets = projetService.findProjetsByCriteria(criteria);
+    @PostMapping("/search")
+	public ResponseEntity<List<ProjetDTO>> findProjetsByCriteria(@RequestBody ProjetCriteriaDTO criteria) {
+	    List<ProjetDTO> projets = projetService.findProjetsByCriteria(criteria);
 	    return ResponseEntity.ok(projets);
 	}
 	

@@ -19,14 +19,13 @@ public class Manager extends Employe {
 	public Manager() {
 		super();
 	}
-	
 
 	public Manager(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif);
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif,
+				photo);
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public Manager(Set<Projet> projets) {
 		super();
@@ -45,5 +44,7 @@ public class Manager extends Employe {
 	public String toString() {
 		return "Manager [projets=" + projets + "]";
 	}
+	
+	
 	
 }

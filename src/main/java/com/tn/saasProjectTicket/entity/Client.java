@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Client extends Utilisateur {
 	
-	@OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "client")
 	@JsonIgnore
 	private Set<Projet> projets;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -49,10 +49,10 @@ public class Client extends Utilisateur {
 	}
 
 
-
 	public Client(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif);
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif,
+				photo);
 		// TODO Auto-generated constructor stub
 	}
 

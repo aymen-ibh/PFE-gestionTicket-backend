@@ -2,36 +2,42 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
-import javax.persistence.Lob;
+import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class RessourceDTO {
-	private int idRessource;
-	private String username;//
-	private String email;//
-	private String firstName;//
-	private String lastName;//
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+public class UtilisateurRegisterDTO {
+
+	private Integer userId;
+	private String username;
+	private String password;
+	private String email;
+	private String firstName;
+	private String lastName;
 	private Date birthDate;
 	private Date creationDate;
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
-	private TicketDTO ticket;
 	private String photo;
-	
-	public int getIdRessource() {
-		return idRessource;
+	private Societe societe;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setIdRessource(int idRessource) {
-		this.idRessource = idRessource;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getEmail() {
 		return email;
@@ -81,28 +87,25 @@ public class RessourceDTO {
 	public void setActif(boolean isActif) {
 		this.isActif = isActif;
 	}
-	public TicketDTO getTicket() {
-		return ticket;
-	}
-	public void setTicket(TicketDTO ticket) {
-		this.ticket = ticket;
-	}
 	public String getPhoto() {
 		return photo;
 	}
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
-	public RessourceDTO() {
-		super();
+	public Societe getSociete() {
+		return societe;
 	}
-	public RessourceDTO(int idRessource, String username, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, TicketDTO ticket,
-			String photo) {
+	public void setSociete(Societe societe) {
+		this.societe = societe;
+	}
+	public UtilisateurRegisterDTO(Integer userId, String username, String password, String email, String firstName,
+			String lastName, Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif,
+			String photo, Societe societe) {
 		super();
-		this.idRessource = idRessource;
+		this.userId = userId;
 		this.username = username;
+		this.password = password;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -111,10 +114,13 @@ public class RessourceDTO {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
-		this.ticket = ticket;
 		this.photo = photo;
+		this.societe = societe;
+	}
+	public UtilisateurRegisterDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-	
-	
+
 }

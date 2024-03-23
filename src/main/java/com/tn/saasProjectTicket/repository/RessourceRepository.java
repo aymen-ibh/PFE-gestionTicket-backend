@@ -28,4 +28,11 @@ public interface RessourceRepository extends JpaRepository<Ressource, Integer> {
 		                            @Param("birthDate") Date birthDate,
 		                            @Param("isActif") Boolean isActif,
 		                            @Param("nomTicket") String nomTicket);
+	@Query("SELECT r FROM Ressource r JOIN r.tickets t WHERE t.id = :idTicket")
+	List<Ressource> findRessourcesByTicketId(@Param("idTicket") Integer idTicket);
+	
+	@Query("SELECT r FROM Ressource r WHERE r.societe.id = :idSociete AND " +
+	           "NOT EXISTS (SELECT 1 FROM Ticket t WHERE t.id = :idTicket AND t.ressource.id = r.id)")
+	List<Ressource> findRessourcesNotAssignedToTicketBySociete(@Param("idSociete") Integer idSociete,
+			                                                   @Param("idTicket") Integer idTicket);
 }

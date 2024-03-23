@@ -5,10 +5,23 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Employe extends Utilisateur {
+	
+	@ManyToOne
+	private Societe societe;
+	
+	
+	public Societe getSociete() {
+		return societe;
+	}
+
+	public void setSociete(Societe societe) {
+		this.societe = societe;
+	}
 
 	public Employe() {
 		super();
@@ -16,8 +29,9 @@ public class Employe extends Utilisateur {
 	}
 
 	public Employe(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif);
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif,
+				photo);
 		// TODO Auto-generated constructor stub
 	}
 	

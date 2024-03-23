@@ -3,6 +3,7 @@ package com.tn.saasProjectTicket.serviceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class SocieteServiceImpl implements SocieteService {
 	
 	@Autowired
 	private SocieteRepository societeRepository;
+	@Autowired
+	ModelMapper mapper;
 
 	@Override
 	public List<SocieteDTO> getAllSocities() {
@@ -51,19 +54,7 @@ public class SocieteServiceImpl implements SocieteService {
 	}
 	
 	private SocieteDTO convertToDto(Societe societe) {
-		SocieteDTO dto = new SocieteDTO();
-		dto.setIdSociete(societe.getIdSociete());
-		dto.setNomSociete(societe.getNomSociete());
-		dto.setSecteurActivite(societe.getSecteurActivite());
-		dto.setAdresse(societe.getAdresse());
-		dto.setSocieteCreationDate(societe.getSocieteCreationDate());
-		dto.setSocieteUpdateDate(societe.getSocieteUpdateDate());
-		
-		dto.setFirstNameOwner(societe.getSuperviseur().getFirstName());
-		dto.setLastNameOwner(societe.getSuperviseur().getLastName());
-		dto.setUsernameOwner(societe.getSuperviseur().getUsername());
-		
-		return dto;
+		return mapper.map(societe, SocieteDTO.class);
 	}
 
 	

@@ -2,12 +2,14 @@ package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,7 +31,9 @@ public class Utilisateur {
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
-	
+	//@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "text")
+	private String photo;
 
 	
 	public Utilisateur() {
@@ -37,7 +41,8 @@ public class Utilisateur {
 	}	
 
 	public Utilisateur(Integer userId, String username, String password, String email, String firstName,
-			String lastName, Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif) {
+			String lastName, Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif,
+			String photo) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -50,16 +55,7 @@ public class Utilisateur {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
-	}
-
-
-	public boolean isActif() {
-		return isActif;
-	}
-
-
-	public void setIsActif(boolean actif) {
-		this.isActif = actif;
+		this.photo = photo;
 	}
 
 
@@ -162,14 +158,29 @@ public class Utilisateur {
 		this.role = role;
 	}
 
+	public boolean isActif() {
+		return isActif;
+	}
+
+	public void setActif(boolean isActif) {
+		this.isActif = isActif;
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
 	@Override
 	public String toString() {
-		return "Utilisateur [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", creationDate="
-				+ creationDate + ", updateDate=" + updateDate + ", role=" + role + "]";
+		return "Utilisateur [userId=" + userId + ", username=" + username + ", password=" + password + ", email="
+				+ email + ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate
+				+ ", creationDate=" + creationDate + ", updateDate=" + updateDate + ", role=" + role + ", isActif="
+				+ isActif + ", photo=" + photo + "]";
 	}
-	
-	
+		
 
 }

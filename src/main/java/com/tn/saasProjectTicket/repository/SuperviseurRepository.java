@@ -28,5 +28,6 @@ public interface SuperviseurRepository extends JpaRepository<Superviseur, Intege
 	                                     @Param("birthDate") Date birthDate,
 	                                     @Param("isActif") Boolean isActif,
 	                                     @Param("nomSociete") String nomSociete);
+	Superviseur findByUsername(String username);
 	
 }

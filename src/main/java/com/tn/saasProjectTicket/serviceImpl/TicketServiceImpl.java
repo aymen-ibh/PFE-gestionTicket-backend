@@ -5,16 +5,22 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Historique;
+import com.tn.saasProjectTicket.entity.Ressource;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
+import com.tn.saasProjectTicket.entity.TicketDTO;
 import com.tn.saasProjectTicket.enums.Etat;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.HistoriqueRepository;
+import com.tn.saasProjectTicket.repository.ProjetRepository;
+import com.tn.saasProjectTicket.repository.RessourceRepository;
 import com.tn.saasProjectTicket.repository.TicketRepository;
 import com.tn.saasProjectTicket.service.TicketService;
 
@@ -25,31 +31,35 @@ public class TicketServiceImpl implements TicketService {
 	TicketRepository ticketRepository;
 	
 	@Autowired
+	RessourceRepository ressourceRepository;
+	
+	@Autowired
+	ProjetRepository projetRepository;
+	
+	@Autowired
 	HistoriqueRepository historiqueRepository;
+	
+	@Autowired
+	ModelMapper mapper;
 
 	@Override
-	public Ticket ajouterTicket(Ticket ticket) {
-		Ticket newTicket = new Ticket();
-		newTicket.setNomTicket(ticket.getNomTicket());
-		newTicket.setDescriptionTicket(ticket.getDescriptionTicket());
-		newTicket.setTicketCreationDate(new Date());
-		newTicket.setTicketUpdateDate(new Date());
-		newTicket.setEtat(Etat.TO_DO);
-		ticketRepository.save(newTicket);
-		
-		addHistory(newTicket, "Ticket créé","CREATION", null, newTicket.toString());
-		
-		return newTicket;
+	public Ticket ajouterTicket(Integer idProjet, Ticket ticket) {
+		return this.projetRepository.findById(idProjet).map(projet -> {
+			ticket.setProjet(projet);
+			addHistory(ticket, "Ticket créé","CREATION", null, ticket.toString());
+			return this.ticketRepository.save(ticket);
+		}).orElseThrow(() -> new RessourceNotFoundException("Ticket", "Id", ticket.getIdTicket()));
 	}
 
 	@Override
-	public Ticket updateTicket(Ticket ticket, int idTicket) {
+	public TicketDTO updateTicket(Ticket ticket, int idTicket) {
 		Ticket ticketExistant = ticketRepository.findById(idTicket).get();
 		String oldData = ticketExistant.toString();
 		String ancienEtat = ticketExistant.getEtat().toString();
 		
 		ticketExistant.setNomTicket(ticket.getNomTicket());
 		ticketExistant.setDescriptionTicket(ticket.getDescriptionTicket());
+		ticketExistant.setEtat(ticket.getEtat());
 		ticketExistant.setTicketUpdateDate(new Date());
 		Ticket updatedTicket = ticketRepository.save(ticketExistant);
 		
@@ -73,22 +83,24 @@ public class TicketServiceImpl implements TicketService {
 			}
 		}
 		
-		addHistory(ticketExistant, action, "MODIFICATION", oldData, updatedTicket.toString());
+		addHistory(ticketExistant, action, "MODIFICATION", oldData, convertToDTO(updatedTicket).toString());
 		
-		return updatedTicket;
+		return convertToDTO(updatedTicket);
 	}
 
 	@Override
-	public Ticket getTicket(int idTicket) {
-		return ticketRepository.findById(idTicket).orElseThrow(
+	public TicketDTO getTicket(int idTicket) {
+		return convertToDTO(ticketRepository.findById(idTicket).orElseThrow(
 				()->new RessourceNotFoundException("Ticket","Id",idTicket)
-				);
+				));
 	}
 
 	@Override
-	public Set<Ticket> getAllTickets() {
-		List<Ticket> ticketList = ticketRepository.findAll();
-	    return new HashSet<>(ticketList);
+	public List<TicketDTO> getTicketsByProjectAndEtat(Integer idProjet, Etat etat) {
+		List<Ticket> ticketList = ticketRepository.findByProjetIdProjetAndEtat(idProjet, etat);
+	    return ticketList.stream()
+	    		.map(this::convertToDTO)
+	    		.collect(Collectors.toList());
 	}
 
 	@Override
@@ -101,6 +113,25 @@ public class TicketServiceImpl implements TicketService {
 		
 	}
 	
+	@Override
+	public TicketDTO assignRessourceToTicket(Integer idTicket, Integer idRessource) {
+		Ticket ticket = this.ticketRepository.findById(idTicket)
+				.orElseThrow(()-> new RessourceNotFoundException("Ticket","Id", idTicket));
+		ticket.setEtat(Etat.AFFECTED);
+		Ressource ressource = this.ressourceRepository.findById(idRessource)
+				.orElseThrow(()-> new RessourceNotFoundException("Ressource", "Id", idRessource));
+		ticket.setRessource(ressource);
+		ticketRepository.save(ticket);
+		return convertToDTO(ticket);
+	}
+	
+	@Override
+	public void unassignRessourceToTicket(Integer idTicket) {
+		Ticket ticket = this.ticketRepository.findById(idTicket)
+				.orElseThrow(()-> new RessourceNotFoundException("Ticket", "Id", idTicket));
+		ticket.setRessource(null);
+		ticketRepository.save(ticket);
+	}
 
 	private void addHistory(Ticket ticket, String action,String typeChangement, String oldValue, String newValue) {
 		Historique history = new Historique();
@@ -125,6 +156,10 @@ public class TicketServiceImpl implements TicketService {
 				criteria.getEndDate(),
 				criteria.getCreePar()
 				);
+	}
+	
+	private TicketDTO convertToDTO(Ticket ticket) {
+		return this.mapper.map(ticket, TicketDTO.class);
 	}
 
 }

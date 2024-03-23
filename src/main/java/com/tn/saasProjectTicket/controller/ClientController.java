@@ -30,6 +30,11 @@ public class ClientController {
 		return this.clientService.getAllClients();
 	}
 	
+	@GetMapping("/{idSociete}/clients")
+	public ResponseEntity<List<ClientDTO>> getClientsBySociete(@PathVariable int idSociete){
+		return new ResponseEntity<List<ClientDTO>>(this.clientService.getClientsBySociete(idSociete),HttpStatus.OK);
+	}
+	
 	@GetMapping("/{idClient}")
 	public ResponseEntity<ClientDTO> getClient(@PathVariable int idClient){
 		return new ResponseEntity<ClientDTO>(this.clientService.getClient(idClient),HttpStatus.OK);

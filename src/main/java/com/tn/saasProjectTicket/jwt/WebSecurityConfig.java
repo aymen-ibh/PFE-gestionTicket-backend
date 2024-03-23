@@ -1,5 +1,6 @@
 package com.tn.saasProjectTicket.jwt;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthEntryPoint unauthorizedHandler;
 	
 
-	
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 	
 	
 

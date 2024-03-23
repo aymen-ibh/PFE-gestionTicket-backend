@@ -10,4 +10,6 @@ public interface ClientService {
 	List<ClientDTO> getAllClients();
 	ClientDTO getClient(int idClient);
 	List<ClientDTO> findClientByCriteria(ClientCriteriaDTO criteria);
+	
+	List<ClientDTO> getClientsBySociete(int idSociete);
 }

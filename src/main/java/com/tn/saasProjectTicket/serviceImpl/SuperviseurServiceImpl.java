@@ -60,7 +60,7 @@ public class SuperviseurServiceImpl implements SuperviseurService {
 		superviseur.setLastName(registrationDto.getLastName());
 		superviseur.setCreationDate(new Date());
 		superviseur.setUpdateDate(new Date());
-		superviseur.setIsActif(true);
+		superviseur.setActif(true);
 		
 		Societe societe = new Societe();
 		societe.setNomSociete(registrationDto.getNomSociete());
@@ -160,6 +160,7 @@ public class SuperviseurServiceImpl implements SuperviseurService {
 		dto.setUpdateDate(superviseur.getUpdateDate());
 		dto.setRole(superviseur.getRole());
 		dto.setActif(superviseur.isActif());
+		dto.setPhoto(superviseur.getPhoto());
 		
 		dto.setNomSociete(superviseur.getSociete().getNomSociete());
 		dto.setAdresse(superviseur.getSociete().getAdresse());
@@ -177,7 +178,7 @@ public class SuperviseurServiceImpl implements SuperviseurService {
 		Superviseur superviseur = superviseurRepository.findById(idSuperviseur).orElseThrow(
 				() -> new RessourceNotFoundException("Superviseur", "Id", idSuperviseur)
 				);
-		superviseur.setIsActif(etatActif);
+		superviseur.setActif(etatActif);
 		superviseurRepository.save(superviseur);
 		return convertToDto(superviseur);
 	}

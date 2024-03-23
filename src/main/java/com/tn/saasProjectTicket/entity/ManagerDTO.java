@@ -1,11 +1,14 @@
 package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ManagerDTO {
-	private int idManager;
+	private Integer userId;
 	private String username;//
 	private String email;//
 	private String firstName;//
@@ -16,13 +19,16 @@ public class ManagerDTO {
 	private Date updateDate;
 	private String role;
 	private boolean isActif;
-	private String nomProjet;
+	//@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "text")
+	private String photo;
+	private Set<ProjetDTO> projets;
 	
-	public int getIdManager() {
-		return idManager;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setIdManager(int idManager) {
-		this.idManager = idManager;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	public String getUsername() {
 		return username;
@@ -78,20 +84,23 @@ public class ManagerDTO {
 	public void setActif(boolean isActif) {
 		this.isActif = isActif;
 	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public Set<ProjetDTO> getProjets() {
+		return projets;
+	}
+	public void setProjets(Set<ProjetDTO> projets) {
+		this.projets = projets;
+	}
 	
-	public String getNomProjet() {
-		return nomProjet;
-	}
-	public void setNomProjet(String nomProjet) {
-		this.nomProjet = nomProjet;
-	}
-	public ManagerDTO() {
+	public ManagerDTO(Integer userId, String username, String email, String firstName, String lastName, Date birthDate,
+			Date creationDate, Date updateDate, String role, boolean isActif, String photo, Set<ProjetDTO> projets) {
 		super();
-	}
-	public ManagerDTO(int idManager, String username, String email, String firstName, String lastName, Date birthDate,
-			Date creationDate, Date updateDate, String role, boolean isActif,String nomProjet) {
-		super();
-		this.idManager = idManager;
+		this.userId = userId;
 		this.username = username;
 		this.email = email;
 		this.firstName = firstName;
@@ -101,7 +110,12 @@ public class ManagerDTO {
 		this.updateDate = updateDate;
 		this.role = role;
 		this.isActif = isActif;
-		this.nomProjet = nomProjet;
+		this.photo = photo;
+		this.projets = projets;
 	}
+	public ManagerDTO() {
+		super();
+	}
+
 	
 }

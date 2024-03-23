@@ -28,4 +28,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 		                            @Param("birthDate") Date birthDate,
 		                            @Param("isActif") Boolean isActif,
 		                            @Param("nomProjet") String nomProjet);
+	Client findByUserIdAndSocieteIdSociete(int idClient, int idSociete);
+	
+	List<Client> findBySocieteIdSociete(int idSociete);
 }

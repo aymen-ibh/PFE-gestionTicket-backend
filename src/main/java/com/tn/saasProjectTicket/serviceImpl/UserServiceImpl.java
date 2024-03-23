@@ -1,8 +1,12 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import javax.naming.AuthenticationException;
@@ -27,17 +31,24 @@ import com.tn.saasProjectTicket.entity.Admin;
 import com.tn.saasProjectTicket.entity.AuthResponse;
 import com.tn.saasProjectTicket.entity.Client;
 import com.tn.saasProjectTicket.entity.Manager;
+import com.tn.saasProjectTicket.entity.PasswordChangeDTO;
+import com.tn.saasProjectTicket.entity.PasswordResetToken;
 import com.tn.saasProjectTicket.entity.Ressource;
+import com.tn.saasProjectTicket.entity.Societe;
 import com.tn.saasProjectTicket.entity.Superviseur;
 import com.tn.saasProjectTicket.entity.TokenObject;
 import com.tn.saasProjectTicket.entity.Utilisateur;
+import com.tn.saasProjectTicket.entity.UtilisateurRegisterDTO;
+import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.exception.domain.EmailAlreadyExistException;
 import com.tn.saasProjectTicket.exception.domain.UserAlreadyExistException;
 import com.tn.saasProjectTicket.jwt.JwtProvider;
 import com.tn.saasProjectTicket.repository.AdminRepository;
 import com.tn.saasProjectTicket.repository.ClientRepository;
+import com.tn.saasProjectTicket.repository.EmployeRepository;
 import com.tn.saasProjectTicket.repository.ManagerRepository;
 import com.tn.saasProjectTicket.repository.RessourceRepository;
+import com.tn.saasProjectTicket.repository.SocieteRepository;
 import com.tn.saasProjectTicket.repository.SuperviseurRepository;
 import com.tn.saasProjectTicket.repository.UserRepository;
 import com.tn.saasProjectTicket.service.UserService;
@@ -47,6 +58,7 @@ import com.tn.saasProjectTicket.services.UserPrinciple;
 @Service
 public class UserServiceImpl implements UserService {
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
+	private Map<String, PasswordResetToken> tokenStore = new ConcurrentHashMap<>();
 	@Autowired
 	private UserRepository userRepository;
 
@@ -59,9 +71,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private SuperviseurRepository superviseurRepository;
 	@Autowired
+	private EmployeRepository employeRepository;
+	@Autowired
 	private ManagerRepository managerRepository;
 	@Autowired
 	private RessourceRepository ressourceRepository;
+	@Autowired
+	private SocieteRepository societeRepository;
 	@Autowired
 	private MailTicketServiceImpl mailTicketServiceImpl;
 	
@@ -76,7 +92,7 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
-	public Utilisateur registerUser(Utilisateur utilisateur) {
+	public UtilisateurRegisterDTO registerUser(UtilisateurRegisterDTO utilisateur) {
 		if (userRepository.findByUsername(utilisateur.getUsername()).isPresent()) {
             throw new UserAlreadyExistException("Nom d'utilisateur déjà pris");
         }
@@ -96,7 +112,8 @@ public class UserServiceImpl implements UserService {
 			admin.setLastName(utilisateur.getLastName());
 			admin.setCreationDate(new Date());
 			admin.setUpdateDate(new Date());
-			admin.setIsActif(true);
+			admin.setActif(true);
+			admin.setPhoto(utilisateur.getPhoto());
 			mailTicketServiceImpl.sendMAil(
 					utilisateur.getEmail(), "Creation account", "title for test", "message for test");
 			adminRepository.save(admin);
@@ -114,7 +131,12 @@ public class UserServiceImpl implements UserService {
 			client.setLastName(utilisateur.getLastName());
 			client.setCreationDate(new Date());
 			client.setUpdateDate(new Date());
-			client.setIsActif(true);
+			client.setActif(true);
+			client.setPhoto(utilisateur.getPhoto());
+			if (utilisateur.getSociete() != null) {
+			    Societe societe = societeRepository.findById(utilisateur.getSociete().getIdSociete()).orElseThrow(/* exception */);
+			    client.setSociete(societe);
+			}
 			
 			//envoi de l'email
 			String emailContent = "Votre identifiant est : " + utilisateur.getUsername() + 
@@ -150,7 +172,9 @@ public class UserServiceImpl implements UserService {
 			manager.setLastName(utilisateur.getLastName());
 			manager.setCreationDate(new Date());
 			manager.setUpdateDate(new Date());
-			manager.setIsActif(true);
+			manager.setActif(true);
+			manager.setPhoto(utilisateur.getPhoto());
+			manager.setSociete(utilisateur.getSociete());
 			//envoi de l'email
 			String emailMContent = "Votre identifiant est : " + utilisateur.getUsername() + 
                     "<br>Votre mot de passe est : " + generatedMPassword;
@@ -170,7 +194,9 @@ public class UserServiceImpl implements UserService {
 			ressource.setLastName(utilisateur.getLastName());
 			ressource.setCreationDate(new Date());
 			ressource.setUpdateDate(new Date());
-			ressource.setIsActif(true);
+			ressource.setActif(true);
+			ressource.setPhoto(utilisateur.getPhoto());
+			ressource.setSociete(utilisateur.getSociete());
 			//envoi de l'email
 			String emailRContent = "Votre identifiant est : " + utilisateur.getUsername() + 
                     "<br>Votre mot de passe est : " + generatedRPassword;
@@ -212,6 +238,14 @@ public class UserServiceImpl implements UserService {
 		TokenObject tokenObject = new TokenObject();
 		tokenObject.setUsername(userDetails.getUsername());
 		tokenObject.setUserId(utilisateur.getUserId());
+		if(utilisateur.getRole().equals("CLIENT"))
+			tokenObject.setIdEntreprise(clientRepository.findById(utilisateur.getUserId()).get().getSociete().getIdSociete());
+		if(utilisateur.getRole().equals("SUPERVISEUR"))
+			tokenObject.setIdEntreprise(superviseurRepository.findById(utilisateur.getUserId()).get().getSociete().getIdSociete());
+		if(utilisateur.getRole().equals("MANAGER"))
+			tokenObject.setIdEntreprise(managerRepository.findById(utilisateur.getUserId()).get().getSociete().getIdSociete());
+		if(utilisateur.getRole().equals("RESSOURCE"))
+			tokenObject.setIdEntreprise(ressourceRepository.findById(utilisateur.getUserId()).get().getSociete().getIdSociete());
      
 		String role = userDetails.getAuthorities().isEmpty() ? null :
 		              userDetails.getAuthorities().iterator().next().getAuthority();
@@ -228,6 +262,59 @@ public class UserServiceImpl implements UserService {
                 .body(new AuthResponse(HttpStatus.UNAUTHORIZED.value(), "Erreur d'authentification "+e.getMessage()));
      }
 	}
+	
+	@Override
+	public void createResetToken(String email) {
+		String token = UUID.randomUUID().toString();
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+        tokenStore.put(token, new PasswordResetToken(token, email, expiryDate));
+
+        sendResetTokenEmail(email, token);
+	}
+	
+	private void sendResetTokenEmail(String email, String token) {
+		String resetLink = "http://localhost:4200/password-change?token=" + token;
+		mailTicketServiceImpl.sendMAil(email, "Réinitialisation de votre mot de passe",
+				"\"Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : ", resetLink);
+	}
+
+	@Override
+	public void resetPassword(String token, String newPassword) {
+		if (!tokenStore.containsKey(token)) {
+			throw new IllegalArgumentException("Token invalide ou expiré");
+		}
+		
+		PasswordResetToken resetToken = tokenStore.get(token);
+		if(resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+			throw new IllegalArgumentException("Token expiré");
+		}
+		
+		Utilisateur utilisateur = this.userRepository.findByEmail(resetToken.getUserEmail()).orElseThrow(
+				() -> new UsernameNotFoundException("Utilisateur non trouvé")
+				);
+		utilisateur.setPassword(encoder.encode(newPassword));
+		userRepository.save(utilisateur);
+		tokenStore.remove(token);
+		
+	}
+	
+	@Override
+	public boolean changeUserPassword(Integer userId, PasswordChangeDTO passwordChangeDTO) {
+		Utilisateur utilisateur = userRepository.findById(userId).orElseThrow(
+				() -> new RessourceNotFoundException("Id", "userId", userId)
+				);
+		String currentPassword = passwordChangeDTO.getCurrentPassword();
+		String newPassword = passwordChangeDTO.getNewPassword();
+		
+		if(!encoder.matches(currentPassword, utilisateur.getPassword())) {
+			throw new BadCredentialsException("Le mot de passe actuel est incorrect!!!");
+		}
+		
+		utilisateur.setPassword(encoder.encode(newPassword));
+		userRepository.save(utilisateur);
+		return true;
+	}
+
 	
 	public String generateSecurePassword() {
 	    int length = 10; // Longueur du mot de passe

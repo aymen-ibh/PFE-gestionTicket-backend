@@ -1,20 +1,30 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Client;
+import com.tn.saasProjectTicket.entity.ClientDTO;
+import com.tn.saasProjectTicket.entity.Employe;
 import com.tn.saasProjectTicket.entity.Manager;
 import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
+import com.tn.saasProjectTicket.entity.ProjetDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.ClientRepository;
+import com.tn.saasProjectTicket.repository.EmployeRepository;
 import com.tn.saasProjectTicket.repository.ManagerRepository;
 import com.tn.saasProjectTicket.repository.ProjetRepository;
+import com.tn.saasProjectTicket.repository.SuperviseurRepository;
 import com.tn.saasProjectTicket.service.ProjetService;
 
 @Service
@@ -26,34 +36,33 @@ public class ProjetServiceImpl implements ProjetService {
 	ClientRepository clientRepository;
 	@Autowired
 	ManagerRepository managerRepository;
+	@Autowired
+	SuperviseurRepository superviseurRepository;
+	@Autowired
+	EmployeRepository employeRepository;
+	@Autowired
+	ModelMapper mapper;
 
 	@Override
-	public Projet ajouterProjet(Projet projet) {
-		Projet newProjet = new Projet();
-		newProjet.setNomProjet(projet.getNomProjet());
-		newProjet.setDescriptionProjet(projet.getDescriptionProjet());
-		newProjet.setProjetCreationDate(new Date());
-		newProjet.setProjetUpdateDate(new Date());
-		newProjet.setDatedebutProjet(new Date());
-		newProjet.setDateFinProjet(projet.getDateFinProjet());
-		newProjet.setActif(false);
+	public List<ProjetDTO> getAllProjects() {
+		List<Projet> listProjects = this.projetRepository.findAll();
+		return listProjects.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public ProjetDTO ajouterProjet(Projet projet) {
 		
-		
-		int idClient = projet.getClient().getUserId();
-		int idManager = projet.getManager().getUserId();
-		Client client = clientRepository.findById(idClient).get();
-		Manager manager = managerRepository.findById(idManager).get();
-		newProjet.setClient(client);
-		newProjet.setManager(manager);
-		projetRepository.save(newProjet);
-		return newProjet;
+		 return mapper.map(projetRepository.save(projet), ProjetDTO.class);
 	}
 
 	@Override
-	public Projet getProjetById(int idProjet) {
-		return projetRepository.findById(idProjet).orElseThrow(
+	public ProjetDTO getProjetById(int idProjet) {
+		Projet projet = projetRepository.findById(idProjet).orElseThrow(
 				()->new RessourceNotFoundException("Projet","Id",idProjet)
 				);
+		return convertToDto(projet);
 	}
 
 	@Override
@@ -75,15 +84,18 @@ public class ProjetServiceImpl implements ProjetService {
 	}
 
 	@Override
-	public Set<Projet> findProjetsByCriteria(ProjetCriteriaDTO projetCriteriaDTO) {
-		 return projetRepository.findProjetsByCriteria(
-                projetCriteriaDTO.getClientId(),
+	public List<ProjetDTO> findProjetsByCriteria(ProjetCriteriaDTO projetCriteriaDTO) {
+		 List<Projet> listProjets = projetRepository.findByCriteria(
+                projetCriteriaDTO.getIdClient(),
+                projetCriteriaDTO.getIdManager(),
                 projetCriteriaDTO.getIsActif(),
                 projetCriteriaDTO.getDatedebutProjet(),
                 projetCriteriaDTO.getDateFinProjet(),
                 projetCriteriaDTO.getProjetCreationDate(),
-                projetCriteriaDTO.getNomProjet()
-        );
+                projetCriteriaDTO.getNomProjet());
+		 return listProjets.stream()
+				 .map(this::convertToDto)
+				 .collect(Collectors.toList());
 	}
 
 	@Override
@@ -95,7 +107,7 @@ public class ProjetServiceImpl implements ProjetService {
 		projetRepository.save(projet) ;
 		return projet;
 	}
-
+	
 	@Override
 	public Projet desactiverProjet(int idProjet) {
 		Projet projet = projetRepository.findById(idProjet).orElseThrow(
@@ -105,6 +117,38 @@ public class ProjetServiceImpl implements ProjetService {
 		projetRepository.save(projet) ;
 		return projet;
 	}
+	
+	@Override
+	public List<ProjetDTO> getSocieteProjets(int idSociete) {
+		
+		List<Projet> listProjets = new ArrayList<Projet>();
+		listProjets = this.projetRepository.findProjetsBySocieteId(idSociete);
+		return listProjets.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<ProjetDTO> getProjectsByClient(int idClient){
+		List<Projet> listProjets = new ArrayList<Projet>();
+		listProjets = this.projetRepository.findByClient_userId(idClient);
+		return listProjets.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<ProjetDTO> getProjectsByManager(int idManager){
+		List<Projet> listProjects = new ArrayList<Projet>();
+		listProjects = this.projetRepository.findByManager_userId(idManager);
+		return listProjects.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
 
+	private ProjetDTO convertToDto(Projet projet) {
+
+		return mapper.map(projet, ProjetDTO.class);
+	}
 
 }

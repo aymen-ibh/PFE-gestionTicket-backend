@@ -5,12 +5,15 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tn.saasProjectTicket.enums.Etat;
 
 @Entity
@@ -21,6 +24,7 @@ public class Ticket {
 	private Integer idTicket;
 	private String nomTicket;
 	private String descriptionTicket;
+	@Enumerated(EnumType.STRING)
 	private Etat etat;
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
@@ -28,6 +32,7 @@ public class Ticket {
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Ressource ressource;
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Projet projet;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Historique> historiques;
