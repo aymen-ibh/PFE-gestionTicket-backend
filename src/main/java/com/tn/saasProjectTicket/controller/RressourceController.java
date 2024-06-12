@@ -33,6 +33,11 @@ public class RressourceController {
 		return this.ressourceService.getAllRessources();
 	}
 	
+	@GetMapping("/{idSociete}/ressources")
+	public ResponseEntity<List<RessourceDTO>> getRessourcesBySociete(@PathVariable Integer idSociete){
+		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService.getRessourcesBySociete(idSociete), HttpStatus.OK);
+	}
+	
 	@GetMapping("/{idRessource}")
 	public ResponseEntity<RessourceDTO> getClient(@PathVariable int idRessource){
 		return new ResponseEntity<RessourceDTO>(this.ressourceService.getRessource(idRessource),HttpStatus.OK);

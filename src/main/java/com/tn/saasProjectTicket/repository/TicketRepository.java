@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.enums.Etat;
 
@@ -31,4 +32,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	            @Param("creePar") Integer creePar);
 	
 	List<Ticket> findByProjetIdProjetAndEtat(Integer idProjet, Etat etat);
+	List<Ticket> findByRessourceUserIdAndEtat(Integer ressourceId, Etat etat);
+	List<Ticket> findByProjetIn(List<Projet> projets);
 }

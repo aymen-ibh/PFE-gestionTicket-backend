@@ -12,6 +12,7 @@ import com.tn.saasProjectTicket.entity.Ressource;
 import com.tn.saasProjectTicket.entity.RessourceCriteriaDTO;
 import com.tn.saasProjectTicket.entity.RessourceDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
+import com.tn.saasProjectTicket.repository.EmployeRepository;
 import com.tn.saasProjectTicket.repository.RessourceRepository;
 import com.tn.saasProjectTicket.service.RessourceService;
 
@@ -20,6 +21,8 @@ public class RessourceServiceImpl implements RessourceService {
 
 	@Autowired
 	private RessourceRepository ressourceRepository;
+	@Autowired
+	private EmployeRepository employeRepository;
 	@Autowired
 	ModelMapper mapper;
 	
@@ -71,8 +74,17 @@ public class RessourceServiceImpl implements RessourceService {
 				.collect(Collectors.toList());
 	}
 	
+	@Override 
+	public List<RessourceDTO> getRessourcesBySociete(Integer idSociete){
+		List<Ressource> listRessources = this.ressourceRepository.findBySociete_idSociete(idSociete);
+		return listRessources.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
 	private RessourceDTO convertToDto(Ressource ressource) {
 		return mapper.map(ressource, RessourceDTO.class);
 	}
+	
 
 }

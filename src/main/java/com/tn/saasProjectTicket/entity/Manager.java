@@ -20,12 +20,23 @@ public class Manager extends Employe {
 		super();
 	}
 
+
 	public Manager(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
-		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif,
-				photo);
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo,
+			Societe societe,Set<Projet> projets) {
+		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif, photo,
+				societe);
+		// TODO Auto-generated constructor stub
+		this.projets = projets;
+
+	}
+
+
+	public Manager(Societe societe) {
+		super(societe);
 		// TODO Auto-generated constructor stub
 	}
+
 
 	public Manager(Set<Projet> projets) {
 		super();

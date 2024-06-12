@@ -35,4 +35,7 @@ public interface RessourceRepository extends JpaRepository<Ressource, Integer> {
 	           "NOT EXISTS (SELECT 1 FROM Ticket t WHERE t.id = :idTicket AND t.ressource.id = r.id)")
 	List<Ressource> findRessourcesNotAssignedToTicketBySociete(@Param("idSociete") Integer idSociete,
 			                                                   @Param("idTicket") Integer idTicket);
+	
+	List<Ressource> findBySociete_idSociete(Integer idSociete);
+	List<Ressource> findByDisponibleTrue();
 }

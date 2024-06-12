@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tn.saasProjectTicket.entity.Historique;
+import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.Ressource;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
@@ -157,6 +158,23 @@ public class TicketServiceImpl implements TicketService {
 				criteria.getCreePar()
 				);
 	}
+	
+	@Override
+	public List<TicketDTO> getTicketsByRessourceAndEtat(Integer idRessource, Etat etat){
+		List<Ticket> ticketList = ticketRepository.findByRessourceUserIdAndEtat(idRessource, etat);
+		return ticketList.stream()
+	    		.map(this::convertToDTO)
+	    		.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<TicketDTO> getTicketsByManager(Integer idManager){
+		List<Projet> projets = this.projetRepository.findByManager_userId(idManager);
+		List<Ticket> tickets = this.ticketRepository.findByProjetIn(projets);
+		return tickets.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+    }
 	
 	private TicketDTO convertToDTO(Ticket ticket) {
 		return this.mapper.map(ticket, TicketDTO.class);

@@ -18,4 +18,7 @@ public interface TicketService {
 	Set<Ticket> findTicketsByCriteria(TicketCriteriaDTO criteria);
 	TicketDTO assignRessourceToTicket(Integer idTicket, Integer idRessource);
 	void unassignRessourceToTicket(Integer idTicket);
+	
+	List<TicketDTO> getTicketsByRessourceAndEtat(Integer idRessource, Etat etat);
+	List<TicketDTO> getTicketsByManager(Integer idManager);
 }

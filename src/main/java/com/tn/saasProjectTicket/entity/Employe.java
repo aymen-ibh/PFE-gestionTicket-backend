@@ -23,17 +23,27 @@ public class Employe extends Utilisateur {
 		this.societe = societe;
 	}
 
+	public Employe(Societe societe) {
+		super();
+		this.societe = societe;
+	}
+
 	public Employe() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public Employe(Integer userId, String username, String password, String email, String firstName, String lastName,
-			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo) {
+			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, String photo, Societe societe) {
 		super(userId, username, password, email, firstName, lastName, birthDate, creationDate, updateDate, role, isActif,
 				photo);
 		// TODO Auto-generated constructor stub
+		this.societe=societe;
 	}
+
 	
+	
+
+
 	
 }

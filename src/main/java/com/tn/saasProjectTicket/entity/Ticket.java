@@ -10,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -29,6 +32,9 @@ public class Ticket {
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
 	
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+	private Set<CompetenceTicket> competencesRequises;
+	
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	private Ressource ressource;
 	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -42,7 +48,8 @@ public class Ticket {
 	}
 
 	public Ticket(Integer idTicket, String nomTicket, String descriptionTicket, Date ticketCreationDate,
-			Date ticketUpdateDate, Ressource ressource, Projet projet, Set<Historique> historiques) {
+			Date ticketUpdateDate, Ressource ressource, Projet projet, Set<Historique> historiques,
+			Set<CompetenceTicket> competencesRequises) {
 		super();
 		this.idTicket = idTicket;
 		this.nomTicket = nomTicket;
@@ -53,6 +60,7 @@ public class Ticket {
 		this.ressource = ressource;
 		this.projet = projet;
 		this.historiques = historiques;
+		this.competencesRequises = competencesRequises;
 	}
 
 	public Integer getIdTicket() {
@@ -126,16 +134,26 @@ public class Ticket {
 	public void setHistoriques(Set<Historique> historiques) {
 		this.historiques = historiques;
 	}
+	
+
+	public Set<CompetenceTicket> getCompetencesRequises() {
+		return competencesRequises;
+	}
+
+	public void setCompetencesRequises(Set<CompetenceTicket> competencesRequises) {
+		this.competencesRequises = competencesRequises;
+	}
+	
 
 	@Override
 	public String toString() {
 		return "Ticket [idTicket=" + idTicket + ", nomTicket=" + nomTicket + ", descriptionTicket=" + descriptionTicket
 				+ ", etat=" + etat + ", ticketCreationDate=" + ticketCreationDate + ", ticketUpdateDate="
-				+ ticketUpdateDate + ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques
-				+ "]";
+				+ ticketUpdateDate + ",  competencesRequises=" + competencesRequises
+				+ ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques + "]";
 	}
 
-	
-	
+
+
 
 }

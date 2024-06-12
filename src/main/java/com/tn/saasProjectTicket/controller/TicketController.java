@@ -77,4 +77,16 @@ public class TicketController {
         Set<Ticket> tickets = ticketService.findTicketsByCriteria(filter);
         return ResponseEntity.ok(tickets);
     }
+	
+	@GetMapping("/byRessource/{idRessource}")
+	public ResponseEntity<List<TicketDTO>> getTicketsByRessourceAndEtat(@PathVariable Integer idRessource, @RequestParam("etat") String etat){
+		List<TicketDTO> tickets = ticketService.getTicketsByRessourceAndEtat(idRessource, Etat.valueOf(etat.toUpperCase()));
+		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
+	}
+	
+	@GetMapping("/byManager/{idManager}")
+	public ResponseEntity<List<TicketDTO>> getTicketsByManager(@PathVariable Integer idManager){
+		List<TicketDTO> tickets = ticketService.getTicketsByManager(idManager);
+		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
+	}
 }
