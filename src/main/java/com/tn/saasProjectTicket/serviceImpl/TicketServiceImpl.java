@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.tn.saasProjectTicket.entity.Historique;
 import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.Ressource;
+import com.tn.saasProjectTicket.entity.RessourceDTO;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 import com.tn.saasProjectTicket.entity.TicketDTO;
@@ -23,6 +24,7 @@ import com.tn.saasProjectTicket.repository.HistoriqueRepository;
 import com.tn.saasProjectTicket.repository.ProjetRepository;
 import com.tn.saasProjectTicket.repository.RessourceRepository;
 import com.tn.saasProjectTicket.repository.TicketRepository;
+import com.tn.saasProjectTicket.service.MatchingService;
 import com.tn.saasProjectTicket.service.TicketService;
 
 @Service
@@ -39,6 +41,9 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Autowired
 	HistoriqueRepository historiqueRepository;
+	
+	@Autowired
+	MatchingService matchingService;
 	
 	@Autowired
 	ModelMapper mapper;
@@ -176,8 +181,31 @@ public class TicketServiceImpl implements TicketService {
 				.collect(Collectors.toList());
     }
 	
+	@Override
+	public List<TicketDTO> getTicketsByClient(Integer idClient){
+		List<Projet> projets = this.projetRepository.findByClient_userId(idClient);
+		List<Ticket> tickets = this.ticketRepository.findByProjetIn(projets);
+		return tickets.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<RessourceDTO> suggestTopRessourcesForTicket(Integer ticketId){
+		Ticket ticket = ticketRepository.findById(ticketId).get();
+		Integer idSociete = ticket.getProjet().getClient().getSociete().getIdSociete();
+		List<Ressource> societyRessources = ressourceRepository.findBySociete_idSociete(idSociete);
+		List<Ressource> matchedResources = matchingService.topMatchingRessources(ticket, societyRessources, 3);
+		return matchedResources.stream()
+				.map(this::convertRToDTO)
+				.collect(Collectors.toList());
+	}
+	
 	private TicketDTO convertToDTO(Ticket ticket) {
 		return this.mapper.map(ticket, TicketDTO.class);
+	}
+	private RessourceDTO convertRToDTO(Ressource ressource) {
+		return this.mapper.map(ressource, RessourceDTO.class);
 	}
 
 }

@@ -3,6 +3,8 @@ package com.tn.saasProjectTicket.service;
 import java.util.List;
 import java.util.Set;
 
+import com.tn.saasProjectTicket.entity.Ressource;
+import com.tn.saasProjectTicket.entity.RessourceDTO;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 import com.tn.saasProjectTicket.entity.TicketDTO;
@@ -21,4 +23,6 @@ public interface TicketService {
 	
 	List<TicketDTO> getTicketsByRessourceAndEtat(Integer idRessource, Etat etat);
 	List<TicketDTO> getTicketsByManager(Integer idManager);
+	List<TicketDTO> getTicketsByClient(Integer idClient); 
+	List<RessourceDTO> suggestTopRessourcesForTicket(Integer ticketId);
 }

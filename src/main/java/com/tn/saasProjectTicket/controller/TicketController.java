@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tn.saasProjectTicket.entity.Ressource;
+import com.tn.saasProjectTicket.entity.RessourceDTO;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.entity.TicketCriteriaDTO;
 import com.tn.saasProjectTicket.entity.TicketDTO;
 import com.tn.saasProjectTicket.enums.Etat;
 import com.tn.saasProjectTicket.service.TicketService;
+
+import net.bytebuddy.asm.Advice.OffsetMapping.ForOrigin.Renderer.ForReturnTypeName;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -88,5 +92,17 @@ public class TicketController {
 	public ResponseEntity<List<TicketDTO>> getTicketsByManager(@PathVariable Integer idManager){
 		List<TicketDTO> tickets = ticketService.getTicketsByManager(idManager);
 		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
+	}
+	
+	@GetMapping("/byClient/{idClient}")
+	public ResponseEntity<List<TicketDTO>> getTicketsByClient(@PathVariable Integer idClient){
+		List<TicketDTO> tickets = ticketService.getTicketsByClient(idClient);
+		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{ticketId}/suggested-match")
+	public ResponseEntity<List<RessourceDTO>> getSuggestedResources(@PathVariable Integer ticketId){
+		List<RessourceDTO> ressources = ticketService.suggestTopRessourcesForTicket(ticketId);
+		return new ResponseEntity<List<RessourceDTO>>(ressources, HttpStatus.OK);
 	}
 }

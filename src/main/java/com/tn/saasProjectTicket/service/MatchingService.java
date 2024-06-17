@@ -8,5 +8,4 @@ import com.tn.saasProjectTicket.entity.Ticket;
 public interface MatchingService {
 	
 	List<Ressource> topMatchingRessources(Ticket ticket, List<Ressource> ressources, int topN);
-	
 }
