@@ -34,4 +34,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	List<Ticket> findByProjetIdProjetAndEtat(Integer idProjet, Etat etat);
 	List<Ticket> findByRessourceUserIdAndEtat(Integer ressourceId, Etat etat);
 	List<Ticket> findByProjetIn(List<Projet> projets);
+	List<Ticket> findByProjetIdProjet(Integer idProjet);
 }

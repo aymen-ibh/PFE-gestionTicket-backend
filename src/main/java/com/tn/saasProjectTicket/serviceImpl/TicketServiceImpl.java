@@ -52,6 +52,7 @@ public class TicketServiceImpl implements TicketService {
 	public Ticket ajouterTicket(Integer idProjet, Ticket ticket) {
 		return this.projetRepository.findById(idProjet).map(projet -> {
 			ticket.setProjet(projet);
+			ticket.setEtat(Etat.PENDING);
 			addHistory(ticket, "Ticket créé","CREATION", null, ticket.toString());
 			return this.ticketRepository.save(ticket);
 		}).orElseThrow(() -> new RessourceNotFoundException("Ticket", "Id", ticket.getIdTicket()));
@@ -185,6 +186,14 @@ public class TicketServiceImpl implements TicketService {
 	public List<TicketDTO> getTicketsByClient(Integer idClient){
 		List<Projet> projets = this.projetRepository.findByClient_userId(idClient);
 		List<Ticket> tickets = this.ticketRepository.findByProjetIn(projets);
+		return tickets.stream()
+				.map(this::convertToDTO)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<TicketDTO> getTicketsByProject(Integer idProjet){
+		List<Ticket> tickets = ticketRepository.findByProjetIdProjet(idProjet);
 		return tickets.stream()
 				.map(this::convertToDTO)
 				.collect(Collectors.toList());

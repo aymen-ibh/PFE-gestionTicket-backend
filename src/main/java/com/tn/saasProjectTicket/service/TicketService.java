@@ -25,4 +25,5 @@ public interface TicketService {
 	List<TicketDTO> getTicketsByManager(Integer idManager);
 	List<TicketDTO> getTicketsByClient(Integer idClient); 
 	List<RessourceDTO> suggestTopRessourcesForTicket(Integer ticketId);
+	List<TicketDTO> getTicketsByProject(Integer idProjet);
 }

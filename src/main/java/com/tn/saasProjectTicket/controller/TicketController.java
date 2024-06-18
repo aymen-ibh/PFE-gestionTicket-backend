@@ -100,6 +100,12 @@ public class TicketController {
 		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
 	}
 	
+	@GetMapping("/projectTickets/{idProjet}")
+	public ResponseEntity<List<TicketDTO>> getTicketsByProject(@PathVariable Integer idProjet){
+		List<TicketDTO> tickets = ticketService.getTicketsByProject(idProjet);
+		return new ResponseEntity<List<TicketDTO>>(tickets, HttpStatus.OK);
+	}
+	
 	@GetMapping("/{ticketId}/suggested-match")
 	public ResponseEntity<List<RessourceDTO>> getSuggestedResources(@PathVariable Integer ticketId){
 		List<RessourceDTO> ressources = ticketService.suggestTopRessourcesForTicket(ticketId);
