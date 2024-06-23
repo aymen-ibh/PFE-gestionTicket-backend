@@ -19,6 +19,8 @@ import com.tn.saasProjectTicket.entity.Manager;
 import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.ProjetCriteriaDTO;
 import com.tn.saasProjectTicket.entity.ProjetDTO;
+import com.tn.saasProjectTicket.entity.Ticket;
+import com.tn.saasProjectTicket.entity.TicketDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.ClientRepository;
 import com.tn.saasProjectTicket.repository.EmployeRepository;
@@ -147,8 +149,22 @@ public class ProjetServiceImpl implements ProjetService {
 	}
 
 	private ProjetDTO convertToDto(Projet projet) {
-
-		return mapper.map(projet, ProjetDTO.class);
+		ProjetDTO projetDTO = mapper.map(projet, ProjetDTO.class);
+		//projetDTO.setTickets(convertTickets(projet.getTickets()));
+		return projetDTO;
 	}
+	
+	/*private List<TicketDTO> convertTickets(List<Ticket> tickets) {
+        if (tickets == null) {
+            return new ArrayList<>();
+        }
+        return tickets.stream()
+                .map(ticket -> {
+                    TicketDTO ticketDTO = mapper.map(ticket, TicketDTO.class);
+                    ticketDTO.setProjet(null); // Eviter les références circulaires
+                    return ticketDTO;
+                })
+                .collect(Collectors.toList());
+    }*/
 
 }

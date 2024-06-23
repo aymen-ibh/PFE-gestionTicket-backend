@@ -1,6 +1,7 @@
 package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.ManyToOne;
@@ -20,12 +21,9 @@ public class ProjetDTO {
 	private Date projetCreationDate;
 	private Date projetUpdateDate;
 	private boolean isActif;
-	@ManyToOne
 	private ClientDTO client;
-	@ManyToOne
 	private ManagerDTO manager;
-	@OneToMany
-	private Set<Ticket> tickets;
+	private Set<TicketDTO> tickets;
 	
 	
 	public Integer getIdProjet() {
@@ -88,16 +86,16 @@ public class ProjetDTO {
 	public void setManager(ManagerDTO manager) {
 		this.manager = manager;
 	}
-	public Set<Ticket> getTickets() {
+	public Set<TicketDTO> getTickets() {
 		return tickets;
 	}
-	public void setTickets(Set<Ticket> tickets) {
+	public void setTickets(Set<TicketDTO> tickets) {
 		this.tickets = tickets;
 	}
 
 	public ProjetDTO(Integer idProjet, String nomProjet, String descriptionProjet, Date datedebutProjet,
 			Date dateFinProjet, Date projetCreationDate, Date projetUpdateDate, boolean isActif, ClientDTO client,
-			ManagerDTO manager, Set<Ticket> tickets) {
+			ManagerDTO manager, Set<TicketDTO> tickets) {
 		super();
 		this.idProjet = idProjet;
 		this.nomProjet = nomProjet;

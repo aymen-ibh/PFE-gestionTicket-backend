@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tn.saasProjectTicket.enums.Currency;
 import com.tn.saasProjectTicket.enums.Etat;
 
 @Entity
@@ -31,6 +32,9 @@ public class Ticket {
 	private Etat etat;
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
+	private Double budget;
+	@Enumerated(EnumType.STRING)
+	private Currency currency;
 	
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	private Set<CompetenceTicket> competencesRequises;
@@ -48,7 +52,7 @@ public class Ticket {
 	}
 
 	public Ticket(Integer idTicket, String nomTicket, String descriptionTicket, Date ticketCreationDate,
-			Date ticketUpdateDate, Ressource ressource, Projet projet, Set<Historique> historiques,
+			Date ticketUpdateDate,Double budget,Currency currency, Ressource ressource, Projet projet, Set<Historique> historiques,
 			Set<CompetenceTicket> competencesRequises) {
 		super();
 		this.idTicket = idTicket;
@@ -57,6 +61,8 @@ public class Ticket {
 		this.etat = Etat.TO_DO;
 		this.ticketCreationDate = ticketCreationDate;
 		this.ticketUpdateDate = ticketUpdateDate;
+		this.budget = budget;
+		this.currency = currency;
 		this.ressource = ressource;
 		this.projet = projet;
 		this.historiques = historiques;
@@ -101,6 +107,21 @@ public class Ticket {
 
 	public void setEtat(Etat etat) {
 		this.etat = etat;
+	}
+
+	public Double getBudget() {
+		return budget;
+	}
+	public void setBudget(Double budget) {
+		this.budget = budget;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 
 	public Date getTicketUpdateDate() {
@@ -149,8 +170,8 @@ public class Ticket {
 	public String toString() {
 		return "Ticket [idTicket=" + idTicket + ", nomTicket=" + nomTicket + ", descriptionTicket=" + descriptionTicket
 				+ ", etat=" + etat + ", ticketCreationDate=" + ticketCreationDate + ", ticketUpdateDate="
-				+ ticketUpdateDate + ",  competencesRequises=" + competencesRequises
-				+ ", ressource=" + ressource + ", projet=" + projet + ", historiques=" + historiques + "]";
+				+ ticketUpdateDate + ", budget=" + budget + ", currency:" + currency + ",  competencesRequises=" + competencesRequises
+				+  ", projet=" + projet + ", historiques=" + historiques + "]";
 	}
 
 

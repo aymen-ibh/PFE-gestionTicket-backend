@@ -3,7 +3,7 @@ package com.tn.saasProjectTicket.entity;
 import java.util.Date;
 import java.util.Set;
 
-
+import com.tn.saasProjectTicket.enums.Currency;
 import com.tn.saasProjectTicket.enums.Etat;
 
 public class TicketDTO {
@@ -14,6 +14,8 @@ public class TicketDTO {
 	private Etat etat;
 	private Date ticketCreationDate;
 	private Date ticketUpdateDate;
+	private Double budget;
+	private Currency currency;
 	private RessourceDTO ressource;
 	private ProjetDTO projet;
 	private Set<HistoriqueDTO> historiques;
@@ -53,6 +55,19 @@ public class TicketDTO {
 	public void setTicketUpdateDate(Date ticketUpdateDate) {
 		this.ticketUpdateDate = ticketUpdateDate;
 	}
+	public Double getBudget() {
+		return budget;
+	}
+	public void setBudget(Double budget) {
+		this.budget = budget;
+	}
+	
+	public Currency getCurrency() {
+		return currency;
+	}
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
 	public RessourceDTO getRessource() {
 		return ressource;
 	}
@@ -77,7 +92,7 @@ public class TicketDTO {
 		super();
 	}
 	public TicketDTO(Integer idTicket, String nomTicket, String descriptionTicket, Etat etat, Date ticketCreationDate,
-			Date ticketUpdateDate, RessourceDTO ressource, ProjetDTO projet, Set<HistoriqueDTO> historiques) {
+			Date ticketUpdateDate,Double budget,Currency currency, RessourceDTO ressource, ProjetDTO projet, Set<HistoriqueDTO> historiques) {
 		super();
 		this.idTicket = idTicket;
 		this.nomTicket = nomTicket;
@@ -85,6 +100,8 @@ public class TicketDTO {
 		this.etat = etat;
 		this.ticketCreationDate = ticketCreationDate;
 		this.ticketUpdateDate = ticketUpdateDate;
+		this.budget = budget;
+		this.currency = currency;
 		this.ressource = ressource;
 		this.projet = projet;
 		this.historiques = historiques;

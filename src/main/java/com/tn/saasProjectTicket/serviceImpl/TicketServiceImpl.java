@@ -68,6 +68,8 @@ public class TicketServiceImpl implements TicketService {
 		ticketExistant.setDescriptionTicket(ticket.getDescriptionTicket());
 		ticketExistant.setEtat(ticket.getEtat());
 		ticketExistant.setTicketUpdateDate(new Date());
+		ticketExistant.setBudget(ticket.getBudget());
+		ticketExistant.setCurrency(ticket.getCurrency());
 		Ticket updatedTicket = ticketRepository.save(ticketExistant);
 		
 		String action = "Ticket mis à jour";
