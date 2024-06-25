@@ -14,4 +14,5 @@ public interface RessourceService {
 	List<RessourceDTO> getRessourceNotAssignedToTicketBySociete(Integer idSociete, Integer idTicket);
 	
 	List<RessourceDTO> getRessourcesBySociete(Integer idSociete);
+	List<RessourceDTO> getRessourcesByProject(Integer idProjet);
 }

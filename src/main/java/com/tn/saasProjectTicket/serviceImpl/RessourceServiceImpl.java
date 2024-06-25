@@ -14,6 +14,7 @@ import com.tn.saasProjectTicket.entity.RessourceDTO;
 import com.tn.saasProjectTicket.exception.RessourceNotFoundException;
 import com.tn.saasProjectTicket.repository.EmployeRepository;
 import com.tn.saasProjectTicket.repository.RessourceRepository;
+import com.tn.saasProjectTicket.repository.TicketRepository;
 import com.tn.saasProjectTicket.service.RessourceService;
 
 @Service
@@ -21,6 +22,8 @@ public class RessourceServiceImpl implements RessourceService {
 
 	@Autowired
 	private RessourceRepository ressourceRepository;
+	@Autowired
+	private TicketRepository ticketRepository;
 	@Autowired
 	private EmployeRepository employeRepository;
 	@Autowired
@@ -77,6 +80,14 @@ public class RessourceServiceImpl implements RessourceService {
 	@Override 
 	public List<RessourceDTO> getRessourcesBySociete(Integer idSociete){
 		List<Ressource> listRessources = this.ressourceRepository.findBySociete_idSociete(idSociete);
+		return listRessources.stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<RessourceDTO> getRessourcesByProject(Integer idProjet){
+		List<Ressource> listRessources = this.ticketRepository.findRessourcesByProjectId(idProjet);
 		return listRessources.stream()
 				.map(this::convertToDto)
 				.collect(Collectors.toList());

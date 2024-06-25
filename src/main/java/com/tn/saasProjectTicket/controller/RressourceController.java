@@ -55,6 +55,12 @@ public class RressourceController {
 				.getRessourceNotAssignedToTicketBySociete(idSociete, idTicket), HttpStatus.OK);
 	}
 	
+	@GetMapping("/projectRessources/{idProjet}")
+	public ResponseEntity<List<RessourceDTO>> getRessourcesByProjectId(@PathVariable Integer idProjet){
+		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService
+				.getRessourcesByProject(idProjet), HttpStatus.OK);
+	}
+	
 	@PostMapping("/search")
 	public ResponseEntity<List<RessourceDTO>> filterClient(@RequestBody RessourceCriteriaDTO criteria){
 		return new ResponseEntity<List<RessourceDTO>>(this.ressourceService.findRessourceByCriteria(criteria),HttpStatus.OK);

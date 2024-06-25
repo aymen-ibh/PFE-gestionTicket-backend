@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.tn.saasProjectTicket.entity.Projet;
+import com.tn.saasProjectTicket.entity.Ressource;
 import com.tn.saasProjectTicket.entity.Ticket;
 import com.tn.saasProjectTicket.enums.Etat;
 
@@ -35,4 +36,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	List<Ticket> findByRessourceUserIdAndEtat(Integer ressourceId, Etat etat);
 	List<Ticket> findByProjetIn(List<Projet> projets);
 	List<Ticket> findByProjetIdProjet(Integer idProjet);
+	
+	@Query("SELECt DISTINCT t.ressource FROM Ticket t WHERE t.projet.idProjet = :idProjet")
+	List<Ressource> findRessourcesByProjectId(@Param("idProjet") Integer idProjet);
 }
