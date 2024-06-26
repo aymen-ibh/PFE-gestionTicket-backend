@@ -153,6 +153,16 @@ public class ProjetServiceImpl implements ProjetService {
 		//projetDTO.setTickets(convertTickets(projet.getTickets()));
 		return projetDTO;
 	}
+
+	@Override
+	public Integer countProjectsByManager(Integer managerId) {
+		return this.projetRepository.countByManager_userId(managerId);
+	}
+
+	@Override
+	public Integer countProjectsByClient(Integer clientId) {
+		return this.projetRepository.countByClient_userId(clientId);
+	}
 	
 	/*private List<TicketDTO> convertTickets(List<Ticket> tickets) {
         if (tickets == null) {

@@ -21,4 +21,7 @@ public interface ProjetService {
 	List<ProjetDTO> getSocieteProjets(int idSociete);
 	List<ProjetDTO> getProjectsByClient(int idClient);
 	List<ProjetDTO> getProjectsByManager(int idManager);
+	
+	Integer countProjectsByManager(Integer managerId);
+	Integer countProjectsByClient(Integer clientId);
 }

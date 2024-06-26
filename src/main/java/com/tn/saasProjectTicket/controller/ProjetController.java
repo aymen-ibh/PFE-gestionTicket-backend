@@ -81,5 +81,16 @@ public class ProjetController {
         Projet projet = projetService.desactiverProjet(projetId);
         return new ResponseEntity<>(projet, HttpStatus.OK);
     }
+	
+	@GetMapping("/count/manager/{managerId}")
+	public ResponseEntity<Integer> countManagerProjects(@PathVariable Integer managerId){
+		Integer count = this.projetService.countProjectsByManager(managerId);
+		return ResponseEntity.ok(count);
+	}
+	@GetMapping("/count/client/{clientId}")
+	public ResponseEntity<Integer> countClientProjects(@PathVariable Integer clientId){
+		Integer count = this.projetService.countProjectsByClient(clientId);
+		return ResponseEntity.ok(count);
+	}
 
 }

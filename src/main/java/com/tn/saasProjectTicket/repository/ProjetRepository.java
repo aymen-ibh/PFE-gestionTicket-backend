@@ -42,6 +42,9 @@ public interface ProjetRepository extends JpaRepository<Projet, Integer> {
 	public List<Projet> findProjetsBySocieteId(@PathParam("idSociete") Integer idSociete);
 	
 	public List<Projet> findByManager_userId(Integer managerId);
+	
+	Integer countByManager_userId(Integer managerId);
+	Integer countByClient_userId(Integer clientId);
 
 	    
 }
