@@ -334,6 +334,12 @@ public class UserServiceImpl implements UserService {
 	    return new String(password);
 	}
 	
+	@Override
+	public String getUserRoleById(Integer userId) {
+		Utilisateur user = this.userRepository.findById(userId).get();
+		String role = user.getRole();
+		return role;
+	}
 	
 	
 	

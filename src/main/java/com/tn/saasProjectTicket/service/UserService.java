@@ -18,5 +18,6 @@ public interface UserService {
 	void createResetToken(String email);
 	void resetPassword(String token, String newPassword);
 	boolean changeUserPassword(Integer userId, PasswordChangeDTO passwordChangeDTO);
-
+	
+	String getUserRoleById(Integer userId);
 }
