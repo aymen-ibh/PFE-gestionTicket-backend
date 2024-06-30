@@ -139,10 +139,10 @@ public class UserServiceImpl implements UserService {
 			}
 			
 			//envoi de l'email
-			String emailContent = "Votre identifiant est : " + utilisateur.getUsername() + 
-                    "<br>Votre mot de passe est : " + generatedPassword;
-			 mailTicketServiceImpl.sendMAil(
-					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailContent);
+			String username = utilisateur.getUsername();
+			String password = generatedPassword;
+			 mailTicketServiceImpl.sendMAilPassword(
+					 utilisateur.getEmail(), "Account creation", username, generatedPassword);
 			clientRepository.save(client);
 			break;
 		/*case "SUPERVISEUR":
@@ -176,10 +176,10 @@ public class UserServiceImpl implements UserService {
 			manager.setPhoto(utilisateur.getPhoto());
 			manager.setSociete(utilisateur.getSociete());
 			//envoi de l'email
-			String emailMContent = "Votre identifiant est : " + utilisateur.getUsername() + 
-                    "<br>Votre mot de passe est : " + generatedMPassword;
-			 mailTicketServiceImpl.sendMAil(
-					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailMContent);
+			String Musername = utilisateur.getUsername();
+			String Mpassword = generatedMPassword;
+			 mailTicketServiceImpl.sendMAilPassword(
+					 utilisateur.getEmail(), "Account creation", Musername, Mpassword);
 			managerRepository.save(manager);
 			break;
 		case "RESSOURCE":
@@ -198,10 +198,10 @@ public class UserServiceImpl implements UserService {
 			ressource.setPhoto(utilisateur.getPhoto());
 			ressource.setSociete(utilisateur.getSociete());
 			//envoi de l'email
-			String emailRContent = "Votre identifiant est : " + utilisateur.getUsername() + 
-                    "<br>Votre mot de passe est : " + generatedRPassword;
-			 mailTicketServiceImpl.sendMAil(
-					 utilisateur.getEmail(), "Création de compte", "Bienvenue chez Nous", emailRContent);
+			String Rusername = utilisateur.getUsername();
+			String Rpassword = generatedRPassword;
+			 mailTicketServiceImpl.sendMAilPassword(
+					 utilisateur.getEmail(), "Acount creation", Rusername, Rpassword);
 			ressourceRepository.save(ressource);
 			break;
 		default:

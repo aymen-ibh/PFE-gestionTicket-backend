@@ -42,7 +42,7 @@ public class MailTicketServiceImpl {
 		}
 	}
 	
-	public void sendMAilPassword(String to, String subject , String title , String message ) {
+	public void sendMAilPassword(String to, String subject , String username , String password ) {
 		try {			
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -51,8 +51,8 @@ public class MailTicketServiceImpl {
 	        helper.setSubject(subject);
 
 	        Context context = new Context();
-	        context.setVariable("title", title);
-	        context.setVariable("message", message);
+	        context.setVariable("username", username);
+	        context.setVariable("password", password);
 	        String emailContent = templateEngine.process("email-template", context);
 
 	        helper.setText(emailContent, true);
