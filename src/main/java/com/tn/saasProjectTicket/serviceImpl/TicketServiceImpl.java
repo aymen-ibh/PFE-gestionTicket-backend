@@ -2,15 +2,20 @@ package com.tn.saasProjectTicket.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tn.saasProjectTicket.entity.Client;
 import com.tn.saasProjectTicket.entity.Historique;
 import com.tn.saasProjectTicket.entity.Projet;
 import com.tn.saasProjectTicket.entity.Ressource;
@@ -44,6 +49,8 @@ public class TicketServiceImpl implements TicketService {
 	
 	@Autowired
 	MatchingService matchingService;
+	@Autowired
+	MailTicketServiceImpl emailService;
 	
 	@Autowired
 	ModelMapper mapper;
@@ -63,6 +70,9 @@ public class TicketServiceImpl implements TicketService {
 		Ticket ticketExistant = ticketRepository.findById(idTicket).get();
 		String oldData = ticketExistant.toString();
 		String ancienEtat = ticketExistant.getEtat().toString();
+		
+		Client ticketClient = ticketExistant.getProjet().getClient();
+		String clientEmail = ticketClient.getEmail();
 		
 		ticketExistant.setNomTicket(ticket.getNomTicket());
 		ticketExistant.setDescriptionTicket(ticket.getDescriptionTicket());
@@ -90,6 +100,14 @@ public class TicketServiceImpl implements TicketService {
 				action = "Ticket mis à jour";
 				break;
 			}
+			
+			Map<String, Object> templateModel = new HashMap<>();
+			templateModel.put("recipientName", ticketClient.getFirstName());
+			templateModel.put("ticketName", ticketExistant.getNomTicket());
+	        templateModel.put("oldStatus", ancienEtat);
+	        templateModel.put("newStatus", ticketExistant.getEtat().toString());
+	        templateModel.put("updateDate", ticketExistant.getTicketUpdateDate());
+	        emailService.sendMailTicketUpdateStatus(clientEmail, "Ticket Status Updated", templateModel);
 		}
 		
 		addHistory(ticketExistant, action, "MODIFICATION", oldData, convertToDTO(updatedTicket).toString());

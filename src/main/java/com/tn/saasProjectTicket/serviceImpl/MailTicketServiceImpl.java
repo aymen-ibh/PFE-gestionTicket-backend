@@ -1,5 +1,7 @@
 package com.tn.saasProjectTicket.serviceImpl;
 
+import java.util.Map;
+
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,26 @@ public class MailTicketServiceImpl {
 	        mailSender.send(mimeMessage);
 			
 			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void sendMailTicketUpdateStatus(String to, String subject, Map<String, Object> templateModel) {
+		try {
+			MimeMessage mimeMessage = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom("benhouria097@outlook.com");
+			helper.setTo(to);
+			helper.setSubject(subject);
+			
+			Context context = new Context();
+			context.setVariables(templateModel);
+			String emailContent = templateEngine.process("ticket-update-email-template", context);
+			
+			helper.setText(emailContent, true);
+			mailSender.send(mimeMessage);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
