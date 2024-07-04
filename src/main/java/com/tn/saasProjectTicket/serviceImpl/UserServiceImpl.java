@@ -3,6 +3,7 @@ package com.tn.saasProjectTicket.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -274,8 +275,14 @@ public class UserServiceImpl implements UserService {
 	
 	private void sendResetTokenEmail(String email, String token) {
 		String resetLink = "http://localhost:4200/password-change?token=" + token;
-		mailTicketServiceImpl.sendMAil(email, "Réinitialisation de votre mot de passe",
-				"\"Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien suivant : ", resetLink);
+		
+		Map<String, Object> templateModel = new HashMap<>();
+		templateModel.put("resetLink", resetLink);
+		try {
+			mailTicketServiceImpl.sendMailResetPasswordToken(email, "Password Reset", templateModel);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
