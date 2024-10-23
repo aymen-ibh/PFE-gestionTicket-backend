@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tn.saasProjectTicket.entity.Admin;
 import com.tn.saasProjectTicket.entity.AuthResponse;
@@ -339,6 +340,13 @@ public class UserServiceImpl implements UserService {
 	        password[i] = finalString.charAt(random.nextInt(finalString.length()));
 	    }
 	    return new String(password);
+	}
+	
+	@Override
+	public Utilisateur updateProfilePhoto(Integer userId, String base64Photo) {
+		Utilisateur utilisateur = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        utilisateur.setPhoto(base64Photo);
+        return userRepository.save(utilisateur);
 	}
 	
 	@Override

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tn.saasProjectTicket.entity.AuthResponse;
 import com.tn.saasProjectTicket.entity.PasswordChangeDTO;
@@ -75,6 +76,15 @@ public class UserController {
 		} catch (UsernameNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
+	}
+	
+	@PostMapping("/update-photo")
+	public ResponseEntity<Map<String, String>> uploadProfilePhoto(@RequestBody Map<String, Object> payload) {
+		Integer userId = (Integer) payload.get("userId");
+        String base64Photo = (String) payload.get("base64Photo");
+        
+		userService.updateProfilePhoto(userId, base64Photo);
+		return new ResponseEntity<>(Map.of("message", "Profile photo updated successfully!"), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{userId}/role")

@@ -3,6 +3,7 @@ package com.tn.saasProjectTicket.service;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tn.saasProjectTicket.entity.AuthResponse;
 import com.tn.saasProjectTicket.entity.PasswordChangeDTO;
@@ -18,6 +19,7 @@ public interface UserService {
 	void createResetToken(String email);
 	void resetPassword(String token, String newPassword);
 	boolean changeUserPassword(Integer userId, PasswordChangeDTO passwordChangeDTO);
+	Utilisateur updateProfilePhoto(Integer userId, String base64Photo);
 	
 	String getUserRoleById(Integer userId);
 }

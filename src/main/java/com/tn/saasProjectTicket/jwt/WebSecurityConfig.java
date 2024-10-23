@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**",  "/api/pays/**").permitAll().
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**",  "/api/pays/**","/uploads/**").permitAll().
 				antMatchers(HttpMethod.OPTIONS, "/**","/user/registerSuperviseur").permitAll().anyRequest().authenticated().and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

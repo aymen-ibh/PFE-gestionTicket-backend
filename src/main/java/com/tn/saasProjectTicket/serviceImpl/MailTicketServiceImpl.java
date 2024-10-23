@@ -24,7 +24,7 @@ public class MailTicketServiceImpl {
 		try {			
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-	        helper.setFrom("benhouria097@outlook.com");
+	        helper.setFrom("benhouria097@gmail.com");
 	        helper.setTo(to);
 	        helper.setSubject(subject);
 
@@ -48,7 +48,7 @@ public class MailTicketServiceImpl {
 		try {			
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-	        helper.setFrom("benhouria097@outlook.com");
+	        helper.setFrom("benhouria097@gmail.com");
 	        helper.setTo(to);
 	        helper.setSubject(subject);
 
@@ -72,7 +72,7 @@ public class MailTicketServiceImpl {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-			helper.setFrom("benhouria097@outlook.com");
+			helper.setFrom("benhouria097@gmail.com");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			
@@ -92,7 +92,7 @@ public class MailTicketServiceImpl {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-			helper.setFrom("benhouria097@outlook.com");
+			helper.setFrom("benhouria097@gmail.com");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			
