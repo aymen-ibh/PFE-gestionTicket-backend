@@ -48,7 +48,8 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	// calculer le score de correspondance entre un ticket et une ressource
-	private int calculateMatchingScore(Ticket ticket, Ressource ressource) {
+	@Override
+	public int calculateMatchingScore(Ticket ticket, Ressource ressource) {
 		int score = 0;
 		
 		for (CompetenceTicket competenceTicket : ticket.getCompetencesRequises()) {

@@ -1,6 +1,7 @@
 package com.tn.saasProjectTicket.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Lob;
 
@@ -20,6 +21,8 @@ public class RessourceDTO {
 	private boolean isActif;
 	private TicketDTO ticket;
 	private String photo;
+	private List<CompetenceRessource> skills; //Competences du ressource>
+	private int compatibility;
 	
 	public int getIdRessource() {
 		return idRessource;
@@ -94,12 +97,24 @@ public class RessourceDTO {
 		this.photo = photo;
 	}
 	
+	public List<CompetenceRessource> getSkills() {
+		return skills;
+	}
+	public void setSkills(List<CompetenceRessource> skills) {
+		this.skills = skills;
+	}
+	public int getCompatibility() {
+		return compatibility;
+	}
+	public void setCompatibility(int compatibility) {
+		this.compatibility = compatibility;
+	}
 	public RessourceDTO() {
 		super();
 	}
 	public RessourceDTO(int idRessource, String username, String email, String firstName, String lastName,
 			Date birthDate, Date creationDate, Date updateDate, String role, boolean isActif, TicketDTO ticket,
-			String photo) {
+			String photo, List<CompetenceRessource> skills, int compatibility) {
 		super();
 		this.idRessource = idRessource;
 		this.username = username;
@@ -113,6 +128,8 @@ public class RessourceDTO {
 		this.isActif = isActif;
 		this.ticket = ticket;
 		this.photo = photo;
+		this.skills = skills;
+		this.compatibility = compatibility;
 	}
 	
 	

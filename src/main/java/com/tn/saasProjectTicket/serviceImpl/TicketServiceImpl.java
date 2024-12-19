@@ -226,7 +226,12 @@ public class TicketServiceImpl implements TicketService {
 		List<Ressource> societyRessources = ressourceRepository.findBySociete_idSociete(idSociete);
 		List<Ressource> matchedResources = matchingService.topMatchingRessources(ticket, societyRessources, 3);
 		return matchedResources.stream()
-				.map(this::convertRToDTO)
+				.map(ressource -> {
+	                RessourceDTO dto = convertRToDTO(ressource);
+	                int compatibilityScore = matchingService.calculateMatchingScore(ticket, ressource); // Calculer le score
+	                dto.setCompatibility(compatibilityScore); // Ajouter le score au DTO
+	                return dto;
+	            })
 				.collect(Collectors.toList());
 	}
 	

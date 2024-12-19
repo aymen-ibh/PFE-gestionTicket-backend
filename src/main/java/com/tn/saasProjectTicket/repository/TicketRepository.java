@@ -39,4 +39,25 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	
 	@Query("SELECt DISTINCT t.ressource FROM Ticket t WHERE t.projet.idProjet = :idProjet")
 	List<Ressource> findRessourcesByProjectId(@Param("idProjet") Integer idProjet);
+	
+	// BI Queries
+	
+	// KPI : Nombre de tickets par statut
+	@Query("SELECT s.idSociete AS idSociete, t.etat AS status, COUNT(t) AS ticketCount " +
+		       "FROM Ticket t " +
+		       "JOIN t.projet p " +
+		       "JOIN p.manager m " +
+		       "JOIN m.societe s " +
+		       "GROUP BY s.idSociete, t.etat")
+		List<Object[]> getTicketCountForAllSociete();
+		
+	// KPI : Budget des Tickets par rapport au seuil
+		@Query("SELECT s.idSociete AS idSociete, p.idProjet AS idProjet, SUM(t.budget) AS totalBudget " +
+			       "FROM Ticket t " +
+			       "JOIN t.projet p " +
+			       "JOIN p.manager m " +
+			       "JOIN m.societe s " +
+			       "GROUP BY s.idSociete, p.idProjet")
+			List<Object[]> getBudgetBySocieteAndProjet();
+	
 }
